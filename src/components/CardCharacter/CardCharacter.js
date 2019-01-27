@@ -2,6 +2,7 @@ import { Card, withStyles, CardActions, Button } from '@material-ui/core';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '../Avatar/Avatar';
+import FieldAction from '../FieldAction/FieldAction';
 
 const styles = {
   card: {
@@ -13,13 +14,23 @@ const styles = {
   },
   actions: {
     justifyContent: 'center',
+    flexWrap: 'wrap'
   },
 };
 
 class CardCharacter extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      reply: false,
+    }
+  }
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    character: PropTypes.string.isRequired,
     onHelpClick: PropTypes.func.isRequired,
+    onReply: PropTypes.func.isRequired
   };
 
   handleHelpClick = () => {
@@ -27,16 +38,38 @@ class CardCharacter extends Component {
     this.props.onHelpClick(character);
   }
 
+  handleReplyClick = () => {
+    this.setState({ reply: true });
+  }
+
+  handleConfirm = (name) => {
+    const { character } = this.props;
+    if (name) {
+      this.props.onReply(character, name);
+    }
+    this.setState({ reply: false });
+  }
+
   render() {
-    const { character: { id }, classes } = this.props;
-    console.log(this.props.character)
+    const { character, classes } = this.props;
+    const { reply } = this.state;
+    let textField = (
+      <div>
+        <Button onClick={this.handleReplyClick} > ? </Button>
+        <Button onClick={this.handleHelpClick}> ... </Button>
+      </div>
+    );
+
+    if (reply) {
+      textField = <FieldAction onConfirm={this.handleConfirm} />
+    }
     
     return (
+
       <Card >
-        <Avatar id= {id} className={classes.media}/>
+        <Avatar id={character} className={classes.media}/>
         <CardActions className={classes.actions}>
-          <Button> ? </Button>
-          <Button onClick={this.handleHelpClick}> ... </Button>
+          {textField}
         </CardActions>
       </Card >
     )

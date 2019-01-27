@@ -31,7 +31,6 @@ export class Pagination extends Component {
   handleClickPrev = () => {
     const { page } = this.props;
     this.props.onChange(page - 1);
-
   }
 
   handleClickNext = () => {
@@ -43,6 +42,7 @@ export class Pagination extends Component {
     const { classes, page, min = 0 , max = 1000 } = this.props;
     const disabledPrev = page === min;
     const disabledNext = page === max;
+
     return (
       <div className={classes.container}>
         <MuiThemeProvider theme={theme}>
