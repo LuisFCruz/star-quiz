@@ -144,7 +144,7 @@ class Quiz extends Component {
   }
 
   render() {
-    const time = 0.2;
+    const time = 2;
     const { classes } = this.props
     const { characters, modal, startTime, pagination, finished, total } = this.state;
 
