@@ -1,20 +1,43 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles, AppBar, Toolbar } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import CardCharacter from '../../components/CardCharacter/CardCharacter';
 import { getCharacters, getPlanetName, getVehicles, getSpecies, getFilms } from '../../services/starwars-api';
 import Modal from '../../components/Modal/Modal';
 import Timer from '../../components/Timer/Timer';
+import Logo from '../../components/Logo/Logo';
 
 const styles = {
+  header: {
+    background: '#FFAB00',
+    color: '#000'
+  },
+  bar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingTop: '10px',
+    paddingBottom: '10px',
+  },
+  media: {
+    width: '64px',
+  },
+  clock: {
+    fontWeight: '700',
+    fontSize: '30px',
+  },
   grid: {
     display: 'grid',
     gridGap: '10px',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))'
+    gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+    padding: '20px',
   }
 }
 
 class Quiz extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+
   constructor() {
     super();
     this.state = {
@@ -63,28 +86,38 @@ class Quiz extends Component {
     const { classes } = this.props
     const { characters, modal, startTime } = this.state;
     return (
-      <div className={classes.grid}>
-        <Timer time={time} start={startTime} />
-        {
-          characters.map((character, index) =>
-            <CardCharacter
-              character={character}
-              key={index}
-              onHelpClick={this.handleModalClickOpen}
+      <div>
+        <AppBar position="static" className={classes.header}>
+          <Toolbar className={classes.bar}>
+            <Logo
+              image="/assets/images/rebel.png"
+              className={classes.media}
             />
-          )
-        }
-        <Modal
-          {...modal}
-          onClose={this.handleModalClose}
-        />
+            <Timer
+              time={time}
+              start={startTime}
+              className={classes.clock}
+            />
+          </Toolbar>
+        </AppBar>
+        <div className={classes.grid}>
+          {
+            characters.map((character, index) =>
+              <CardCharacter
+                character={character}
+                key={index}
+                onHelpClick={this.handleModalClickOpen}
+              />
+            )
+          }
+          <Modal
+            {...modal}
+            onClose={this.handleModalClose}
+          />
+        </div>
       </div>
     )
   }
 }
-
-Quiz.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(Quiz);

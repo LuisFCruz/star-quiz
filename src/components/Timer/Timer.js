@@ -7,7 +7,8 @@ export class Timer extends Component {
   static propTypes = {
     time: PropTypes.number.isRequired,
     start: PropTypes.bool.isRequired,
-    onFinish: PropTypes.func
+    onFinish: PropTypes.func,
+    className: PropTypes.string
   }
 
   constructor(){
@@ -31,7 +32,7 @@ export class Timer extends Component {
 
   componentWillReceiveProps = (prevProps) => {
     const { start } = prevProps;
-    if (start) {
+    if (start && this.secondsRemaining) {
       this.startCountDown();
     }
   }
@@ -64,8 +65,9 @@ export class Timer extends Component {
   }
 
   render() {
+    const { className } = this.props;
     return (
-      <div>
+      <div className={className}>
         {this.state.stopwatch}
       </div>
     )
