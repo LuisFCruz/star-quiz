@@ -6,6 +6,7 @@ import { getCharacters, getPlanetName, getVehicles, getSpecies, getFilms } from 
 import Modal from '../../components/Modal/Modal';
 import Timer from '../../components/Timer/Timer';
 import Logo from '../../components/Logo/Logo';
+import Pagination from '../../components/Pagination/Pagination';
 
 const styles = {
   header: {
@@ -46,6 +47,11 @@ class Quiz extends Component {
         open: false,
         character: null
       },
+      pagination: {
+        page: 1,
+        min: 1,
+        max: 1
+      }, 
       startTime: false
     }
     this.characters = [];
@@ -81,13 +87,20 @@ class Quiz extends Component {
     this.setModal(false, null);
   };
 
+  handleChangePage = () => {
+
+  }
+
   render() {
     const time = 2;
     const { classes } = this.props
-    const { characters, modal, startTime } = this.state;
+    const { characters, modal, startTime, pagination } = this.state;
     return (
       <div>
-        <AppBar position="static" className={classes.header}>
+        <AppBar
+          position="static"
+          className={classes.header}
+        >
           <Toolbar className={classes.bar}>
             <Logo
               image="/assets/images/rebel.png"
@@ -115,6 +128,7 @@ class Quiz extends Component {
             onClose={this.handleModalClose}
           />
         </div>
+        <Pagination onChange={this.handleChangePage} {...pagination} />
       </div>
     )
   }
