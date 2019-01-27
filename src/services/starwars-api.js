@@ -2,17 +2,14 @@ import axios from 'axios';
 
 const BASE_URL = 'https://swapi.co/api/';
 
-export const getCharacters = async (page = 1) => {
-  const url = `${BASE_URL}people?page=${page}`;
-  const { data } = await axios.get(url);
-  return parseCharacters(data.results);
-}
+export const getCharacters = async (pages = []) => {
 
-const parseCharacters = (characters) => {
-  return characters.map(character => {
-    const id = character.url.replace(/[^\d]+/g, "")
-    return {...character, id };
-  });
+  const characters = await Promise.all(pages.map((page) => {
+    const url = `${BASE_URL}people?page=${page}`;
+    return axios.get(url);
+  }));
+
+  return characters.reduce((aggr, { data }) => [...aggr, ...data.results ], []);
 }
 
 export const getFilms = async (urls) => {
@@ -27,12 +24,27 @@ export const getSpecies = async (urls) => {
   return getComplements(urls, 'name');
 }
 
-export const getPlanetName = async (url) => {
-  const { data } = await axios.get(url);
-  return data.name;
+export const getPlanets = async (urls) => {
+  return getComplements(urls, 'name');
+}
+
+export const getAllComplements = async (complements) => {
+  const promises = [
+    getSpecies(complements.species),
+    getVehicles(complements.vehicles),
+    getPlanets(complements.homeworld),
+    getFilms(complements.films),
+  ]
+
+  const [species, vehicles, homeworld, films] = await Promise.all(promises);
+  return { species, vehicles, homeworld, films };
 }
 
 const getComplements = async (urls, attr) => {
   const complement = await Promise.all(urls.map(url => axios.get(url)));
-  return complement.map(({data}) => data[attr]).join(", ");
+  return complement.reduce((aggr, {data}) => {
+    const id = data.url.replace(/[^\d]+/g, "");
+    aggr[id] = data[attr];
+    return aggr;
+  }, {});
 }
