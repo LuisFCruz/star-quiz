@@ -30,7 +30,9 @@ class CardCharacter extends Component {
     classes: PropTypes.object.isRequired,
     character: PropTypes.string.isRequired,
     onHelpClick: PropTypes.func.isRequired,
-    onReply: PropTypes.func.isRequired
+    onReply: PropTypes.func.isRequired,
+    answered: PropTypes.bool,
+    disabled: PropTypes.bool,
   };
 
   handleHelpClick = () => {
@@ -51,16 +53,16 @@ class CardCharacter extends Component {
   }
 
   render() {
-    const { character, classes } = this.props;
+    const { character, answered, disabled, classes } = this.props;
     const { reply } = this.state;
     let textField = (
       <div>
-        <Button onClick={this.handleReplyClick} > ? </Button>
-        <Button onClick={this.handleHelpClick}> ... </Button>
+        <Button onClick={this.handleReplyClick} disabled={disabled || answered} > ? </Button>
+        <Button onClick={this.handleHelpClick} disabled={disabled || answered} > ... </Button>
       </div>
     );
 
-    if (reply) {
+    if (!disabled && !answered && reply) {
       textField = <FieldAction onConfirm={this.handleConfirm} />
     }
     

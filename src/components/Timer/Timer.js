@@ -15,15 +15,17 @@ export class Timer extends Component {
     super();
     
     this.state = {
-      stopwatch: ''
+      stopwatch: '',
+      secondsRemaining: 0
     }
-    this.secondsRemaining = 0;
+
+    this.interval = null;
   }
 
   componentDidMount = () => {
     const { time = 0, start } = this.props;
-    this.secondsRemaining = time * ONE_SECOND
-    this.setStopwatch();
+    const secondsRemaining = time * ONE_SECOND
+    this.setSecondsRemaining(secondsRemaining);
 
     if (start) {
       this.startCountDown();
@@ -32,36 +34,39 @@ export class Timer extends Component {
 
   componentWillReceiveProps = (prevProps) => {
     const { start } = prevProps;
-    if (start && this.secondsRemaining) {
+    if (start) {
       this.startCountDown();
     }
   }
 
   startCountDown = () => {
-    const { onFinish } = this.props;
-    const interval = setInterval(() => {
-
-      this.secondsRemaining--;
-
-      this.setStopwatch();
-      
-      if (this.secondsRemaining === 0) {
-        clearInterval(interval);
-        if (typeof onFinish === 'function') {
-          onFinish();
-        }
-      }
+    if (!!this.interval) { return; }
+    this.interval = setInterval(() => {
+      const { secondsRemaining } = this.state
+      this.setSecondsRemaining(secondsRemaining - 1);
     }, 1000);
   }
 
   setStopwatch = () => {
-    const minute = Math.floor(this.secondsRemaining / ONE_SECOND);
-    const second = (this.secondsRemaining % ONE_SECOND);
+    const { secondsRemaining } = this.state
+    const minute = Math.floor(secondsRemaining / ONE_SECOND);
+    const second = (secondsRemaining % ONE_SECOND);
     const minutesString = minute < 10 ? `0${minute}` : `${minute}`;
     const secondsString = second < 10 ? `0${second}` : `${second}`;
     const stopwatch = `${minutesString}:${secondsString}`;
 
     this.setState({ stopwatch });
+  }
+
+  setSecondsRemaining(secondsRemaining) {
+    if (secondsRemaining <= 0) {
+      clearInterval(this.interval);
+      this.props.onFinish();
+    }
+
+    if (secondsRemaining >= 0) {
+      this.setState({ secondsRemaining}, this.setStopwatch);
+    }
   }
 
   render() {

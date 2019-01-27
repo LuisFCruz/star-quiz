@@ -28,6 +28,17 @@ export const getPlanets = async (urls) => {
   return getComplements(urls, 'name');
 }
 
+export const savePlayer = (player) => {
+  const players = getPlayers();
+  const json = JSON.stringify([...players, player]);
+  localStorage.setItem('player', json);
+}
+
+export const getPlayers = () => {
+  const player = localStorage.getItem('players');
+  return JSON.parse(player) || [];
+}
+
 export const getAllComplements = async (complements) => {
   const promises = [
     getSpecies(complements.species),

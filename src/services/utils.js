@@ -41,7 +41,9 @@ export const mergeCharacterWidthComplements = (characters, complements) => {
       films,
       species,
       homeworld,
-      vehicles
+      vehicles,
+      answered: false,
+      helped: false,
     };
 
     return aggr;

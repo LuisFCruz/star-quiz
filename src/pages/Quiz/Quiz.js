@@ -2,12 +2,13 @@ import { withStyles, AppBar, Toolbar } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import CardCharacter from '../../components/CardCharacter/CardCharacter';
-import { getCharacters, getAllComplements } from '../../services/starwars-api';
+import { getCharacters, getAllComplements, savePlayer } from '../../services/starwars-api';
 import Modal from '../../components/Modal/Modal';
 import Timer from '../../components/Timer/Timer';
 import Logo from '../../components/Logo/Logo';
 import Pagination from '../../components/Pagination/Pagination';
 import { reduceComplementsCharacter, mergeCharacterWidthComplements } from '../../services/utils';
+import ModalEndGame from '../../components/ModalEndGame/ModalEndGame';
 
 const styles = {
   header: {
@@ -53,7 +54,9 @@ class Quiz extends Component {
         min: 1,
         max: 1
       }, 
-      startTime: false
+      startTime: false,
+      finished: false,
+      total: 0,
     }
     this.characters = {};
   }
@@ -73,10 +76,7 @@ class Quiz extends Component {
       this.updatePage();
       this.updateMaxPage();
       this.setState({ startTime: true });
-    } catch(err) {
-      
-    }
-    
+    } catch(err) { }
   }
   
   updatePage = () => {
@@ -98,6 +98,7 @@ class Quiz extends Component {
 
   handleModalClickOpen = async (id) => {
     const character = this.characters[id];
+    this.characters[id] = { ...character, helped: true };
     this.setModal(true, character)
   };
 
@@ -113,13 +114,57 @@ class Quiz extends Component {
   }
 
   handleReply = (id, name) => {
+    const character = this.characters[id];
+
+    if (character.name.toUpperCase() === name.toUpperCase()) {
+      this.characters[id] = { ...character, answered: true }
+      this.updatePage();
+    }
+  }
+
+  handleFinish = () => {
+    const finished = true;
+
+    const answered = Object.keys(this.characters).filter(key => this.characters[key].answered);
+    const total = answered
+      .map(key => this.characters[key])
+      .reduce((aggr, {helped}) =>  aggr + (helped ? 5 : 10), 0);
+
+    this.setState({ total, finished, modal: { open: true } });
+  }
+
+  handleFinishClose = () => {
 
   }
 
+  handleSavePlayer = (player) => {
+    if (player.name && player.email) {
+      savePlayer(player);
+    }
+  }
+
   render() {
-    const time = 2;
+    const time = 0.2;
     const { classes } = this.props
-    const { characters, modal, startTime, pagination } = this.state;
+    const { characters, modal, startTime, pagination, finished, total } = this.state;
+
+    let modalContent = '';
+
+    if (modal.open && modal.character) {
+      modalContent = <Modal
+        {...modal}
+        onClose={this.handleModalClose}
+      />
+    }
+
+    if (modal.open && finished) {
+      modalContent = <ModalEndGame
+        score={total}
+        {...modal}
+        onClose={this.handleFinishClose}
+        onConfirm={this.handleSavePlayer}
+      />
+    }
 
     return (
       <div>
@@ -136,6 +181,7 @@ class Quiz extends Component {
               time={time}
               start={startTime}
               className={classes.clock}
+              onFinish={this.handleFinish}
             />
           </Toolbar>
         </AppBar>
@@ -143,17 +189,16 @@ class Quiz extends Component {
           {
             characters.map((character) =>
               <CardCharacter
-                character={character.id}
                 key={character.id}
+                character={character.id}
+                answered={character.answered}
+                disabled={finished}
                 onHelpClick={this.handleModalClickOpen}
                 onReply={this.handleReply}
               />
             )
           }
-          <Modal
-            {...modal}
-            onClose={this.handleModalClose}
-          />
+          {modalContent}
         </div>
         <Pagination onChange={this.handleChangePage} {...pagination} />
       </div>

@@ -49,6 +49,7 @@ export class Modal extends Component {
         homeworld,
         vehicles
       } = character;
+
       details = (
         <DialogContent className={ classes.content }>
           <Avatar id={id} className={ classes.media } />
@@ -78,7 +79,7 @@ export class Modal extends Component {
 
     return (
       <Dialog onClose={this.handleClose} open={open}>
-        <DialogTitle id="simple-dialog-title">Details</DialogTitle>
+        <DialogTitle>Details</DialogTitle>
         {details}
         <DialogActions>
           <Button onClick={this.handleClose} color="primary">
