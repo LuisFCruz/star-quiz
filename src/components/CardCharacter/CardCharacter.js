@@ -16,6 +16,11 @@ const styles = {
     justifyContent: 'center',
     flexWrap: 'wrap'
   },
+  buttons: {
+    justifyContent: 'space-around',
+    display: 'flex',
+    width: '100%',
+  }
 };
 
 class CardCharacter extends Component {
@@ -56,9 +61,18 @@ class CardCharacter extends Component {
     const { character, answered, disabled, classes } = this.props;
     const { reply } = this.state;
     let textField = (
-      <div>
-        <Button onClick={this.handleReplyClick} disabled={disabled || answered} > ? </Button>
-        <Button onClick={this.handleHelpClick} disabled={disabled || answered} > ... </Button>
+      <div className={classes.buttons}>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={this.handleReplyClick}
+          disabled={disabled || answered}
+        > ? </Button>
+        <Button
+          variant="contained"
+          onClick={this.handleHelpClick}
+          disabled={disabled || answered}
+        > ... </Button>
       </div>
     );
 

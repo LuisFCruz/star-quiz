@@ -6,10 +6,10 @@ export const getCharacters = async (pages = []) => {
 
   const characters = await Promise.all(pages.map((page) => {
     const url = `${BASE_URL}people?page=${page}`;
-    return axios.get(url);
+    return request(url);
   }));
 
-  return characters.reduce((aggr, { data }) => [...aggr, ...data.results ], []);
+  return characters.reduce((aggr, data) => [...aggr, ...data.results ], []);
 }
 
 export const getFilms = async (urls) => {
@@ -52,10 +52,31 @@ export const getAllComplements = async (complements) => {
 }
 
 const getComplements = async (urls, attr) => {
-  const complement = await Promise.all(urls.map(url => axios.get(url)));
-  return complement.reduce((aggr, {data}) => {
+  const complement = await Promise.all(urls.map(url => request(url)));
+  return complement.reduce((aggr, data) => {
     const id = data.url.replace(/[^\d]+/g, "");
     aggr[id] = data[attr];
     return aggr;
   }, {});
+}
+
+const request = async (url) => {
+  const localData = getReponse(url);
+  if (localData) {
+    return localData;
+  }
+  
+  const { data } = await axios.get(url);
+  saveResponse(url, data);
+  return data;
+};
+
+const getReponse = (url) => {
+  const json = localStorage.getItem(url);
+  return JSON.parse(json) ||  null;
+}
+
+const saveResponse = (url, data) => {
+  const json = JSON.stringify(data);
+  localStorage.setItem(url, json);
 }
