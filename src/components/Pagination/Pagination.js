@@ -26,6 +26,7 @@ export class Pagination extends Component {
     onChange: PropTypes.func.isRequired,
     min: PropTypes.number,
     max: PropTypes.number,
+    disabled: PropTypes.bool
   }
 
   handleClickPrev = () => {
@@ -39,7 +40,7 @@ export class Pagination extends Component {
   }
 
   render() {
-    const { classes, page, min = 0 , max = 1000 } = this.props;
+    const { classes, page, min = 0 , max = 1000, disabled = false } = this.props;
     const disabledPrev = page === min;
     const disabledNext = page === max;
 
@@ -51,7 +52,7 @@ export class Pagination extends Component {
             size="medium"
             color="primary"
             className={classes.margin}
-            disabled={disabledPrev}
+            disabled={disabledPrev || disabled}
             onClick={this.handleClickPrev}
           >
             Prev
@@ -61,7 +62,7 @@ export class Pagination extends Component {
             size="medium"
             color="primary"
             className={classes.margin}
-            disabled={disabledNext}
+            disabled={disabledNext || disabled}
             onClick={this.handleClickNext}
           >
             Next

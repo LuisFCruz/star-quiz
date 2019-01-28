@@ -39,6 +39,12 @@ export class Timer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
   startCountDown = () => {
     if (!!this.interval) { return; }
     this.interval = setInterval(() => {

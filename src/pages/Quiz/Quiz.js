@@ -10,6 +10,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import { reduceComplementsCharacter, mergeCharacterWidthComplements } from '../../services/utils';
 import ModalEndGame from '../../components/ModalEndGame/ModalEndGame';
 import Progress from '../../components/Progress/Progress';
+import { Link } from 'react-router-dom';
 
 const styles = {
   header: {
@@ -68,7 +69,11 @@ class Quiz extends Component {
     this.setState({ modal });
   }
   
-  async componentWillMount() {
+  componentDidMount() {
+    this.loadQuiz();
+  }
+
+  loadQuiz = async () => {
     this.setState({ progress: true });
     try {
       const characters =  await getCharacters([1, 2, 3]);
@@ -141,13 +146,16 @@ class Quiz extends Component {
   }
 
   handleFinishClose = () => {
-
+    this.setState({ modal: { open: false } });
   }
 
   handleSavePlayer = (player) => {
-    if (player.name && player.email) {
-      savePlayer(player);
+    const { total } = this.state
+    if (player.name) {
+      savePlayer({...player, total});
     }
+
+    this.handleFinishClose();
   }
 
   render() {
@@ -194,10 +202,12 @@ class Quiz extends Component {
           className={classes.header}
         >
           <Toolbar className={classes.bar}>
-            <Logo
-              image="/assets/images/rebel.png"
-              className={classes.media}
-            />
+            <Link to="/">
+              <Logo
+                image="/assets/images/rebel.png"
+                className={classes.media}
+              />
+            </Link>
             <Timer
               time={time}
               start={startTime}
@@ -221,7 +231,7 @@ class Quiz extends Component {
           }
           {modalContent}
         </div>
-        <Pagination onChange={this.handleChangePage} {...pagination} />
+        <Pagination onChange={this.handleChangePage} {...pagination} disabled={finished}/>
       </div>
     )
   }
