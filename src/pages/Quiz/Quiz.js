@@ -35,6 +35,8 @@ const styles = {
     gridGap: '10px',
     gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
     padding: '20px',
+    maxWidth: '1000px',
+    margin: '0 auto',
   }
 }
 

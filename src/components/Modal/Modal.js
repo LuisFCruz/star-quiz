@@ -43,7 +43,7 @@ export class Modal extends Component {
       const {
         id,
         height,
-        hair_color,
+        hairColor,
         films,
         species,
         homeworld,
@@ -61,7 +61,7 @@ export class Modal extends Component {
               <span className={classes.label}>Height:</span> {height}
             </p>
             <p>
-              <span className={classes.label}>Hair:</span> {hair_color}
+              <span className={classes.label}>Hair:</span> {hairColor}
             </p>
             <p>
               <span className={classes.label}>Planet:</span> {homeworld}

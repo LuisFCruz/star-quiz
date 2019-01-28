@@ -30,8 +30,7 @@ export const mergeCharacterWidthComplements = (characters, complements) => {
     const films = extractNamesComplement(character, complements, 'films');
     const species = extractNamesComplement(character, complements, 'species');
     const homeworld = extractName(homeworldUrl, complements, 'homeworld');
-    const vehicles = extractNamesComplement(character, complements, 'vehicles');
-
+    const vehicles = extractNamesComplement(character, complements, 'vehicles') || 'n/a';
 
     aggr[id] = {
       id,

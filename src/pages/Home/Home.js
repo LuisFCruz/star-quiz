@@ -12,6 +12,8 @@ const styles = theme => ({
   quizInfo: {
     display: 'flex',
     flexDirection: 'column',
+    maxWidth: '1000px',
+    margin: '0 auto',
     [theme.breakpoints.up('sm')]: {
       flexDirection: 'row',
     },
