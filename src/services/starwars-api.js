@@ -31,7 +31,7 @@ export const getPlanets = async (urls) => {
 export const savePlayer = (player) => {
   const players = getPlayers();
   const json = JSON.stringify([...players, player]);
-  localStorage.setItem('player', json);
+  localStorage.setItem('players', json);
 }
 
 export const getPlayers = () => {

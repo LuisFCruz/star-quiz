@@ -30,6 +30,7 @@ export class ModalEndGame extends Component {
     this.state = {
       name: '',
       email: '',
+      error: false
     }
   }
 
@@ -39,7 +40,12 @@ export class ModalEndGame extends Component {
 
   handleConfirm = () => {
     const { name, email } = this.state;
-    this.props.onConfirm({name, email});
+    const error = !name;
+    if (!error) {
+      this.props.onConfirm({name, email});
+    }
+
+    this.setState({ error });
   }
 
 
@@ -53,6 +59,7 @@ export class ModalEndGame extends Component {
 
   render() {
     const { classes, open, score } = this.props;
+    const { error } = this.state
 
     return (
       <Dialog onClose={this.handleClose} open={open}>
@@ -60,7 +67,7 @@ export class ModalEndGame extends Component {
         <DialogContent>
           <Typography className={classes.score}>{score} points</Typography>
           <Typography>Save your score!</Typography>
-          <FormControl className={classes.fieldControl}>
+          <FormControl className={classes.fieldControl} error={error}>
             <InputLabel>Name</InputLabel>
             <Input onChange={this.setName} />
           </FormControl>
