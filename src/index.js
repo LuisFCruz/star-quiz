@@ -1,18 +1,28 @@
+import './index.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import * as serviceWorker from './serviceWorker';
-import Quiz from './pages/Quiz/Quiz'
-import Home from './pages/Home/Home'
+import { Provider } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
+
+import Home from './pages/Home/Home';
+import Quiz from './pages/Quiz/Quiz';
+import reducers from './reducers';
+import * as serviceWorker from './serviceWorker';
+
+const store = createStore(reducers, applyMiddleware(thunk));
 
 ReactDOM.render((
-    <BrowserRouter>
-      <div>
-        <Route exact path='/' component={Home} />
-        <Route path='/quiz' component={Quiz} />
-      </div>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div>
+          <Route exact path='/' component={Home} />
+          <Route path='/quiz' component={Quiz} />
+        </div>
+      </BrowserRouter>
+    </Provider>
   ), document.getElementById('root')
 );
 

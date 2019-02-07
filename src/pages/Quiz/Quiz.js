@@ -1,16 +1,18 @@
-import { withStyles, AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import CardCharacter from '../../components/CardCharacter/CardCharacter';
-import { getCharacters, getAllComplements, savePlayer } from '../../services/starwars-api';
-import Modal from '../../components/Modal/Modal';
-import Timer from '../../components/Timer/Timer';
-import Logo from '../../components/Logo/Logo';
-import Pagination from '../../components/Pagination/Pagination';
-import { reduceComplementsCharacter, mergeCharacterWidthComplements } from '../../services/utils';
-import ModalEndGame from '../../components/ModalEndGame/ModalEndGame';
-import Progress from '../../components/Progress/Progress';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import { savePlayer } from '../../apis/starwars-api';
+import CardCharacter from '../../components/CardCharacter/CardCharacter';
+import Logo from '../../components/Logo/Logo';
+import Modal from '../../components/Modal/Modal';
+import ModalEndGame from '../../components/ModalEndGame/ModalEndGame';
+import Pagination from '../../components/Pagination/Pagination';
+import Progress from '../../components/Progress/Progress';
+import Timer from '../../components/Timer/Timer';
+import { fetchCharacters, filterCharacters } from '../../actions';
 
 const styles = {
   header: {
@@ -48,7 +50,6 @@ class Quiz extends Component {
   constructor() {
     super();
     this.state = {
-      characters: [],
       modal: {
         open: false,
         character: null
@@ -72,17 +73,14 @@ class Quiz extends Component {
   }
   
   componentDidMount() {
+
     this.loadQuiz();
   }
 
   loadQuiz = async () => {
     this.setState({ progress: true });
     try {
-      const characters =  await getCharacters([1, 2, 3]);
-      const complementsUrls = reduceComplementsCharacter(characters);
-      const complements = await getAllComplements(complementsUrls);
-
-      this.characters = mergeCharacterWidthComplements(characters, complements);
+      await this.props.fetchCharacters([1, 2, 3]);
       this.updatePage();
       this.updateMaxPage();
       this.setState({ startTime: true });
@@ -94,14 +92,8 @@ class Quiz extends Component {
   }
   
   updatePage = () => {
-    const { pagination: { page } } = this.state;
-    const start = (page - 1) * 10;
-    const end = (page * 10);
-    
-    const activeKeys = Object.keys(this.characters).slice(start, end);
-    const characters = activeKeys.map(key => this.characters[key]);
-
-    this.setState({ characters })
+    const { allCharacters } = this.props;
+    this.props.filterCharacters(allCharacters, 1);
   }
 
   updateMaxPage = () => {
@@ -162,9 +154,9 @@ class Quiz extends Component {
 
   render() {
     const time = 2;
-    const { classes } = this.props
+    const { classes, characters } = this.props
+
     const {
-      characters,
       modal,
       startTime,
       pagination,
@@ -173,18 +165,11 @@ class Quiz extends Component {
       progress,
     } = this.state;
 
-    let modalContent = '';
+    let modalContent = <Modal />;
     let progressContent = '';
 
     if (progress) {
       progressContent = <Progress />
-    }
-
-    if (modal.open && modal.character) {
-      modalContent = <Modal
-        {...modal}
-        onClose={this.handleModalClose}
-      />
     }
 
     if (modal.open && finished) {
@@ -223,7 +208,7 @@ class Quiz extends Component {
             characters.map((character) =>
               <CardCharacter
                 key={character.id}
-                character={character.id}
+                character={character}
                 answered={character.answered}
                 disabled={finished}
                 onHelpClick={this.handleModalClickOpen}
@@ -239,4 +224,9 @@ class Quiz extends Component {
   }
 }
 
-export default withStyles(styles)(Quiz);
+const mapStateToProps = (state) => {
+  const { allCharacters, characters } = state;
+  return { allCharacters, characters };
+}
+
+export default connect(mapStateToProps, { fetchCharacters, filterCharacters })(withStyles(styles)(Quiz));

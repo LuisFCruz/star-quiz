@@ -1,8 +1,12 @@
-import { Card, withStyles, CardActions, Button } from '@material-ui/core';
-import React, { Component } from 'react';
+import { Button, Card, CardActions, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { selectCharacter } from '../../actions';
 import Avatar from '../Avatar/Avatar';
 import FieldAction from '../FieldAction/FieldAction';
+
 
 const styles = {
   card: {
@@ -33,8 +37,7 @@ class CardCharacter extends Component {
   }
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    character: PropTypes.string.isRequired,
-    onHelpClick: PropTypes.func.isRequired,
+    character: PropTypes.object.isRequired,
     onReply: PropTypes.func.isRequired,
     answered: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -42,7 +45,7 @@ class CardCharacter extends Component {
 
   handleHelpClick = () => {
     const { character } = this.props;
-    this.props.onHelpClick(character);
+    this.props.selectCharacter({...character, helped: true });
   }
 
   handleReplyClick = () => {
@@ -83,7 +86,7 @@ class CardCharacter extends Component {
     return (
 
       <Card >
-        <Avatar id={character} className={classes.media}/>
+        <Avatar id={character.id} className={classes.media}/>
         <CardActions className={classes.actions}>
           {textField}
         </CardActions>
@@ -92,4 +95,6 @@ class CardCharacter extends Component {
   }
 }
 
-export default withStyles(styles)(CardCharacter);
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, { selectCharacter })(withStyles(styles)(CardCharacter));
