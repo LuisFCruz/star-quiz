@@ -26,3 +26,27 @@ export const changePageReducer = (state = 1, action) => {
 
   return state;
 };
+
+export const timerReducer = (state = null, action) => {
+  if (action.type === 'TIMER_CHANGED') {
+    return action.payload;
+  }
+
+  return state;
+}
+
+export const updateStatusReducer = (state = false, action) => {
+  if (action.type === 'FINISHED_GAME') {
+    return action.payload;
+  }
+
+  return state;
+}
+
+export const totalReducer = (state = 0, action) => {
+  if (action.type === 'FINISHED_GAME') {
+    return action.payload.reduce((aggr, { helped }) =>  aggr + (helped ? 5 : 10), 0);
+  }
+
+  return state;
+}

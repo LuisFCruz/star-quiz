@@ -1,14 +1,22 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { finishGame } from '../../actions';
 
-const ONE_SECOND = 60;
+const styles = {
+  clock: {
+    fontWeight: '700',
+    fontSize: '30px',
+  },
+}
 
 export class Timer extends Component {
   static propTypes = {
-    time: PropTypes.number.isRequired,
-    start: PropTypes.bool.isRequired,
-    onFinish: PropTypes.func,
-    className: PropTypes.string
+    duration: PropTypes.number.isRequired,
+    classes: PropTypes.object.isRequired,
+    start: PropTypes.bool,
+    finishGame: PropTypes.func
   }
 
   constructor(){
@@ -23,66 +31,65 @@ export class Timer extends Component {
   }
 
   componentDidMount = () => {
-    const { time = 0, start } = this.props;
-    const secondsRemaining = time * ONE_SECOND
-    this.setSecondsRemaining(secondsRemaining);
+    const { duration = 0, start } = this.props;
+    this.setSecondsRemaining(duration);
 
-    if (start) {
-      this.startCountDown();
-    }
+    if (start) { this.startCountDown(); }
   }
 
-  componentWillReceiveProps = (prevProps) => {
-    const { start } = prevProps;
-    if (start) {
-      this.startCountDown();
-    }
+  componentDidUpdate = () => {
+    const { start } = this.props;
+    if (start) { this.startCountDown(); }
   }
 
   componentWillUnmount() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
+    if (this.interval) { clearInterval(this.interval); }
   }
 
   startCountDown = () => {
-    if (!!this.interval) { return; }
-    this.interval = setInterval(() => {
-      const { secondsRemaining } = this.state
-      this.setSecondsRemaining(secondsRemaining - 1);
-    }, 1000);
+    if (this.interval) { return; }
+
+    this.interval = setInterval(() =>
+      this.setSecondsRemaining(this.state.secondsRemaining - 1),
+      1000
+    );
   }
 
-  setStopwatch = () => {
-    const { secondsRemaining } = this.state
-    const minute = Math.floor(secondsRemaining / ONE_SECOND);
-    const second = (secondsRemaining % ONE_SECOND);
+  secondsToMinutes = (seconds) => {
+    const oneSecond = 60;
+    const minute = Math.floor(seconds / oneSecond);
+    const second = (seconds % oneSecond);
     const minutesString = minute < 10 ? `0${minute}` : `${minute}`;
     const secondsString = second < 10 ? `0${second}` : `${second}`;
-    const stopwatch = `${minutesString}:${secondsString}`;
-
-    this.setState({ stopwatch });
+    return `${minutesString}:${secondsString}`;
   }
 
   setSecondsRemaining(secondsRemaining) {
     if (secondsRemaining <= 0) {
       clearInterval(this.interval);
-      this.props.onFinish();
+      this.props.finishGame(true);
     }
 
     if (secondsRemaining >= 0) {
-      this.setState({ secondsRemaining}, this.setStopwatch);
+      const stopwatch = this.secondsToMinutes(secondsRemaining);
+      this.setState({ secondsRemaining, stopwatch });
     }
   }
 
   render() {
-    const { className } = this.props;
+    const { classes } = this.props;
+
     return (
-      <div className={className}>
+      <div className={classes.clock}>
         {this.state.stopwatch}
       </div>
     )
   }
 }
 
-export default Timer;
+const mapStateToProps = (state) => {
+  const { start } = state;
+  return { start };
+}
+
+export default connect(mapStateToProps, { finishGame })(withStyles(styles)(Timer));

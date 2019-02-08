@@ -31,3 +31,17 @@ export const changePage = (page) => {
     payload: page,
   }
 }
+
+export const startTimer = (start) => {
+  return {
+    type: 'TIMER_CHANGED',
+    payload: start,
+  }
+}
+
+export const finishGame = (finished) => {
+  return {
+    type: 'FINISHED_GAME',
+    payload: finished,
+  }
+}

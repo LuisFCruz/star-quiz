@@ -38,7 +38,9 @@ class CardCharacter extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     character: PropTypes.object.isRequired,
-    disabled: PropTypes.bool,
+    finished: PropTypes.bool,
+    updateCharacters: PropTypes.func,
+    selectCharacter: PropTypes.func,
   };
 
   handleHelpClick = () => {
@@ -59,42 +61,52 @@ class CardCharacter extends Component {
     this.setState({ reply: false });
   }
 
-  render() {
-    const { character, disabled, classes } = this.props;
+  renderActions = () => {
+    const { character, finished, classes } = this.props;
     const { reply } = this.state;
-    let textField = (
+
+    if (!finished && !character.answered && reply) {
+      return <FieldAction onConfirm={this.handleConfirm} />
+    }
+
+    return (
       <div className={classes.buttons}>
         <Button
           color="primary"
           variant="contained"
           onClick={this.handleReplyClick}
-          disabled={disabled || character.answered}
+          disabled={finished || character.answered}
         > ? </Button>
         <Button
           variant="contained"
           onClick={this.handleHelpClick}
-          disabled={disabled || character.answered}
+          disabled={finished || character.answered}
         > ... </Button>
       </div>
     );
 
-    if (!disabled && !character.answered && reply) {
-      textField = <FieldAction onConfirm={this.handleConfirm} />
-    }
+    
+  }
+
+  render() {
+    const { character, classes } = this.props;
     
     return (
 
       <Card >
         <Avatar id={character.id} className={classes.media}/>
         <CardActions className={classes.actions}>
-          {textField}
+          {this.renderActions()}
         </CardActions>
       </Card >
     )
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => {
+  const { finished } = state;
+  return { finished };
+};
 
 export default connect(
   mapStateToProps,
