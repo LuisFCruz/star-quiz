@@ -12,7 +12,7 @@ import ModalEndGame from '../../components/ModalEndGame/ModalEndGame';
 import Pagination from '../../components/Pagination/Pagination';
 import Progress from '../../components/Progress/Progress';
 import Timer from '../../components/Timer/Timer';
-import { fetchCharacters, filterCharacters } from '../../actions';
+import { fetchCharacters } from '../../actions';
 
 const styles = {
   header: {
@@ -54,11 +54,6 @@ class Quiz extends Component {
         open: false,
         character: null
       },
-      pagination: {
-        page: 1,
-        min: 1,
-        max: 1
-      }, 
       startTime: false,
       finished: false,
       total: 0,
@@ -90,11 +85,6 @@ class Quiz extends Component {
       this.setState({ progress: false });
     }
   }
-  
-  updatePage = () => {
-    const { allCharacters } = this.props;
-    this.props.filterCharacters(allCharacters, 1);
-  }
 
   updateMaxPage = () => {
     const max = Object.keys(this.characters).length / 10;
@@ -111,22 +101,6 @@ class Quiz extends Component {
   handleModalClose = () => {
     this.setModal(false, null);
   };
-
-  handleChangePage = (page) => {
-    const { pagination } = this.state;
-    this.setState({
-      pagination: { ...pagination, page }
-    }, this.updatePage);
-  }
-
-  handleReply = (id, name) => {
-    const character = this.characters[id];
-
-    if (character.name.toUpperCase() === name.toUpperCase()) {
-      this.characters[id] = { ...character, answered: true }
-      this.updatePage();
-    }
-  }
 
   handleFinish = () => {
     const finished = true;
@@ -154,12 +128,11 @@ class Quiz extends Component {
 
   render() {
     const time = 2;
-    const { classes, characters } = this.props
+    const { classes, characters, maxPage } = this.props
 
     const {
       modal,
       startTime,
-      pagination,
       finished,
       total,
       progress,
@@ -209,24 +182,28 @@ class Quiz extends Component {
               <CardCharacter
                 key={character.id}
                 character={character}
-                answered={character.answered}
                 disabled={finished}
-                onHelpClick={this.handleModalClickOpen}
-                onReply={this.handleReply}
               />
             )
           }
           {modalContent}
         </div>
-        <Pagination onChange={this.handleChangePage} {...pagination} disabled={finished}/>
+        <Pagination min={1} max={maxPage} disabled={finished}/>
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  const { allCharacters, characters } = state;
-  return { allCharacters, characters };
+  const { characters: allCharacter, page } = state;
+
+  const start = (page - 1) * 10;
+  const end = (page * 10);
+  
+  const characters = allCharacter.slice(start, end);
+  const maxPage = Math.ceil(allCharacter.length / 10);
+
+  return { characters, maxPage };
 }
 
-export default connect(mapStateToProps, { fetchCharacters, filterCharacters })(withStyles(styles)(Quiz));
+export default connect(mapStateToProps, { fetchCharacters })(withStyles(styles)(Quiz));

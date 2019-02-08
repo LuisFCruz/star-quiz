@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { selectCharacter } from '../../actions';
+import { selectCharacter, updateCharacters } from '../../actions';
 import Avatar from '../Avatar/Avatar';
 import FieldAction from '../FieldAction/FieldAction';
 
@@ -38,14 +38,13 @@ class CardCharacter extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     character: PropTypes.object.isRequired,
-    onReply: PropTypes.func.isRequired,
-    answered: PropTypes.bool,
     disabled: PropTypes.bool,
   };
 
   handleHelpClick = () => {
     const { character } = this.props;
-    this.props.selectCharacter({...character, helped: true });
+    this.props.updateCharacters({ ...character, helped: true });
+    this.props.selectCharacter(character);
   }
 
   handleReplyClick = () => {
@@ -54,14 +53,14 @@ class CardCharacter extends Component {
 
   handleConfirm = (name) => {
     const { character } = this.props;
-    if (name) {
-      this.props.onReply(character, name);
+    if (name && character.name.toUpperCase() === name.toUpperCase()) {
+      this.props.updateCharacters({ ...character, answered: true });
     }
     this.setState({ reply: false });
   }
 
   render() {
-    const { character, answered, disabled, classes } = this.props;
+    const { character, disabled, classes } = this.props;
     const { reply } = this.state;
     let textField = (
       <div className={classes.buttons}>
@@ -69,17 +68,17 @@ class CardCharacter extends Component {
           color="primary"
           variant="contained"
           onClick={this.handleReplyClick}
-          disabled={disabled || answered}
+          disabled={disabled || character.answered}
         > ? </Button>
         <Button
           variant="contained"
           onClick={this.handleHelpClick}
-          disabled={disabled || answered}
+          disabled={disabled || character.answered}
         > ... </Button>
       </div>
     );
 
-    if (!disabled && !answered && reply) {
+    if (!disabled && !character.answered && reply) {
       textField = <FieldAction onConfirm={this.handleConfirm} />
     }
     
@@ -97,4 +96,7 @@ class CardCharacter extends Component {
 
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { selectCharacter })(withStyles(styles)(CardCharacter));
+export default connect(
+  mapStateToProps,
+  { selectCharacter, updateCharacters }
+)(withStyles(styles)(CardCharacter));

@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { charactersReducer, selectCharacter, sliceCharactersReducer } from './characterReducer';
+import { changePageReducer, charactersReducer, selectCharacterReducer } from './characterReducer';
 
 export default combineReducers({
-  allCharacters: charactersReducer,
-  characters: sliceCharactersReducer,
-  selectedCharacter: selectCharacter,
+  characters: charactersReducer,
+  selectedCharacter: selectCharacterReducer,
+  page: changePageReducer
 });

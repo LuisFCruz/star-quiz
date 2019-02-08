@@ -11,22 +11,23 @@ export const fetchCharacters = (pages = []) => async (dispatch) => {
   dispatch({ type: 'FETCH_CHARACTERS', payload });
 };
 
-export const filterCharacters = (characters, page) => {
-  const start = (page - 1) * 10;
-  const end = (page * 10);
-  
-  const activeKeys = Object.keys(characters).slice(start, end);
-  const payload = activeKeys.map(key => characters[key]);
-
+export const updateCharacters = (character) => {
   return {
-    type: 'CHARACTERS_SLICED',
-    payload,
+    type: 'CHARACTER_UPDATE',
+    payload: character,
   }
-} 
+}
 
 export const selectCharacter = (character) => {
   return {
     type: 'CHARACTER_SELECTED',
     payload: character,
+  }
+}
+
+export const changePage = (page) => {
+  return {
+    type: 'PAGE_CHANGE',
+    payload: page,
   }
 }

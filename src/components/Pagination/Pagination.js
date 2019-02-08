@@ -1,7 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Button, MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core';
+import { Button, createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { changePage } from '../../actions';
 
 const theme = createMuiTheme({
   palette: {
@@ -22,8 +25,7 @@ const styles = {
 
 export class Pagination extends Component {
   static propTypes = {
-    page: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
     min: PropTypes.number,
     max: PropTypes.number,
     disabled: PropTypes.bool
@@ -31,16 +33,16 @@ export class Pagination extends Component {
 
   handleClickPrev = () => {
     const { page } = this.props;
-    this.props.onChange(page - 1);
+    this.props.changePage(page - 1);
   }
 
   handleClickNext = () => {
     const { page } = this.props;
-    this.props.onChange(page + 1);
+    this.props.changePage(page + 1);
   }
 
   render() {
-    const { classes, page, min = 0 , max = 1000, disabled = false } = this.props;
+    const { classes, page, min = 1 , max = 1000, disabled = false } = this.props;
     const disabledPrev = page === min;
     const disabledNext = page === max;
 
@@ -73,4 +75,9 @@ export class Pagination extends Component {
   }
 }
 
-export default withStyles(styles)(Pagination);
+const mapStateToProps = (state) => {
+  const { page } = state;
+  return { page };
+} 
+
+export default connect(mapStateToProps, { changePage })(withStyles(styles)(Pagination));
