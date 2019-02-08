@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { fetchCharacters, startTimer } from '../../actions';
-import CardCharacter from '../../components/CardCharacter/CardCharacter';
 import Logo from '../../components/Logo/Logo';
 import Modal from '../../components/Modal/Modal';
 import ModalEndGame from '../../components/ModalEndGame/ModalEndGame';
 import Pagination from '../../components/Pagination/Pagination';
-import Progress from '../../components/Progress/Progress';
 import Timer from '../../components/Timer/Timer';
+import ListCharacter from '../ListCharacter/ListCharacter';
+import { Progress } from '../Progress/Progress';
 
 const styles = {
   header: {
@@ -26,14 +26,6 @@ const styles = {
   },
   media: {
     width: '64px',
-  },
-  grid: {
-    display: 'grid',
-    gridGap: '10px',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-    padding: '20px',
-    maxWidth: '1000px',
-    margin: '0 auto',
   }
 }
 
@@ -68,6 +60,7 @@ class Quiz extends Component {
     if (!characters.length) {
       return <Progress />;
     }
+
     return (
       <div>
         <AppBar
@@ -84,32 +77,19 @@ class Quiz extends Component {
             <Timer duration={120} />
           </Toolbar>
         </AppBar>
-        <div className={classes.grid}>
-          {
-            characters.map((character) =>
-              <CardCharacter
-                key={character.id}
-                character={character}
-              />
-            )
-          }
-          <Modal />
-          <ModalEndGame />
-        </div>
+        <ListCharacter />
         <Pagination min={1} max={maxPage} disabled={finished}/>
+        <Modal />
+        <ModalEndGame />
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  const { characters: allCharacter, page, finished } = state;
+  const { characters, finished } = state;
 
-  const start = (page - 1) * 10;
-  const end = (page * 10);
-  
-  const characters = allCharacter.slice(start, end);
-  const maxPage = Math.ceil(allCharacter.length / 10);
+  const maxPage = Math.ceil(characters.length / 10);
 
   return { characters, maxPage, finished };
 }

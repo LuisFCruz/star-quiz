@@ -23,7 +23,7 @@ export class Progress extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes = {} } = this.props
     return (
       <div className={classes.mask}>
         <CircularProgress size={100}/>
