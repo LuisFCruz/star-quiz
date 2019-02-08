@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { fetchCharacters, startTimer } from '../../actions';
-import { savePlayer } from '../../apis/starwars-api';
 import CardCharacter from '../../components/CardCharacter/CardCharacter';
 import Logo from '../../components/Logo/Logo';
 import Modal from '../../components/Modal/Modal';
@@ -60,13 +59,6 @@ class Quiz extends Component {
     }
     catch(err) {
       console.log(err);
-    }
-  }
-
-  handleSavePlayer = (player) => {
-    const { total } = this.state
-    if (player.name) {
-      savePlayer({...player, total});
     }
   }
 
