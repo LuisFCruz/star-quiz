@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { selectCharacter, updateCharacters } from '../../actions';
+import { selectCharacter, updateCharacters, sumScore } from '../../actions';
 import Avatar from '../Avatar/Avatar';
 import FieldAction from '../FieldAction/FieldAction';
 
@@ -41,6 +41,7 @@ class CardCharacter extends Component {
     finished: PropTypes.bool,
     updateCharacters: PropTypes.func,
     selectCharacter: PropTypes.func,
+    sumScore: PropTypes.func,
   };
 
   handleHelpClick = () => {
@@ -52,11 +53,12 @@ class CardCharacter extends Component {
   handleReplyClick = () => {
     this.setState({ reply: true });
   }
-
+  
   handleConfirm = (name) => {
     const { character } = this.props;
     if (name && character.name.toUpperCase() === name.toUpperCase()) {
       this.props.updateCharacters({ ...character, answered: true });
+      this.props.sumScore(character);
     }
     this.setState({ reply: false });
   }
@@ -110,5 +112,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { selectCharacter, updateCharacters }
+  { selectCharacter, updateCharacters, sumScore }
 )(withStyles(styles)(CardCharacter));

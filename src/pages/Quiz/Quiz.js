@@ -73,10 +73,6 @@ class Quiz extends Component {
   render() {
     const { classes, characters, maxPage, finished } = this.props
 
-    if (finished) {
-      // <ModalEndGame />
-    }
-
     if (!characters) {
       return <Progress />;
     }
@@ -106,6 +102,7 @@ class Quiz extends Component {
             )
           }
           <Modal />
+          <ModalEndGame />
         </div>
         <Pagination min={1} max={maxPage} disabled={finished}/>
       </div>

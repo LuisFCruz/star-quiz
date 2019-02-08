@@ -26,9 +26,11 @@ const styles = {
 export class Pagination extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    page: PropTypes.number,
     min: PropTypes.number,
     max: PropTypes.number,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    changePage: PropTypes.func,
   }
 
   handleClickPrev = () => {

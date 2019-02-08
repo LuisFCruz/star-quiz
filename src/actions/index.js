@@ -45,3 +45,10 @@ export const finishGame = (finished) => {
     payload: finished,
   }
 }
+
+export const sumScore = (character) => {
+  return {
+    type: 'ANSWER',
+    payload: character.helped ? 5 : 10,
+  }
+}

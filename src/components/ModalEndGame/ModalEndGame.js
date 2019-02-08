@@ -1,6 +1,18 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogActions, Button, DialogContent, FormControl, InputLabel, Input, Typography, withStyles } from '@material-ui/core';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  Input,
+  InputLabel,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 const styles = {
   score: {
@@ -18,10 +30,8 @@ const styles = {
 export class ModalEndGame extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    open: PropTypes.bool.isRequired,
-    score: PropTypes.number.isRequired,
-    onConfirm: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    finished: PropTypes.bool,
+    score: PropTypes.number
   }
 
   constructor() {
@@ -35,14 +45,14 @@ export class ModalEndGame extends Component {
   }
 
   handleClose = () => {
-    this.props.onClose();
+    // this.props.onClose();
   }
 
   handleConfirm = () => {
     const { name, email } = this.state;
     const error = !name;
     if (!error) {
-      this.props.onConfirm({name, email});
+      //this.props.onConfirm({name, email});
     }
 
     this.setState({ error });
@@ -58,11 +68,11 @@ export class ModalEndGame extends Component {
   }
 
   render() {
-    const { classes, open, score } = this.props;
+    const { classes, finished, score } = this.props;
     const { error } = this.state
 
     return (
-      <Dialog onClose={this.handleClose} open={open}>
+      <Dialog onClose={this.handleClose} open={finished}>
         <DialogTitle>Game over!</DialogTitle>
         <DialogContent>
           <Typography className={classes.score}>{score} points</Typography>
@@ -89,4 +99,9 @@ export class ModalEndGame extends Component {
   }
 }
 
-export default withStyles(styles)(ModalEndGame);
+const mapStatesToProps = (states) => {
+  const { finished, score } = states;
+  return { finished, score };
+}
+
+export default connect(mapStatesToProps)(withStyles(styles)(ModalEndGame));

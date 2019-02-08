@@ -44,8 +44,8 @@ export const updateStatusReducer = (state = false, action) => {
 }
 
 export const totalReducer = (state = 0, action) => {
-  if (action.type === 'FINISHED_GAME') {
-    return action.payload.reduce((aggr, { helped }) =>  aggr + (helped ? 5 : 10), 0);
+  if (action.type === 'ANSWER') {
+    return state + action.payload;
   }
 
   return state;

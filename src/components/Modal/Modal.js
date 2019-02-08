@@ -28,7 +28,9 @@ const styles = theme => ({
 
 export class Modal extends Component {
   static propTypes = {
-    character: PropTypes.object
+    classes: PropTypes.object,
+    character: PropTypes.object,
+    selectCharacter: PropTypes.func,
   }
 
   handleClose = () => {

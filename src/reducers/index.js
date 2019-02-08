@@ -6,6 +6,7 @@ import {
   selectCharacterReducer,
   timerReducer,
   updateStatusReducer,
+  totalReducer,
 } from './characterReducer';
 
 export default combineReducers({
@@ -14,4 +15,5 @@ export default combineReducers({
   page: changePageReducer,
   start: timerReducer,
   finished: updateStatusReducer,
+  score: totalReducer,
 });
