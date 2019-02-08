@@ -65,7 +65,7 @@ class Quiz extends Component {
   render() {
     const { classes, characters, maxPage, finished } = this.props
 
-    if (!characters) {
+    if (!characters.length) {
       return <Progress />;
     }
     return (

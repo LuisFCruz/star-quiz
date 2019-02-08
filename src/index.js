@@ -7,8 +7,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-import Home from './pages/Home/Home';
-import Quiz from './pages/Quiz/Quiz';
+import Home from './components/Home/Home';
+import Quiz from './components/Quiz/Quiz';
 import reducers from './reducers';
 import * as serviceWorker from './serviceWorker';
 
