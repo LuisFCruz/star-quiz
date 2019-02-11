@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { withStyles } from '@material-ui/core';
+import React, { Component } from 'react';
 
 const styles = {
   mask: {
@@ -18,14 +16,10 @@ const styles = {
 }
 
 export class Progress extends Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired
-  }
-
   render() {
-    const { classes = {} } = this.props
+
     return (
-      <div className={classes.mask}>
+      <div style={styles.mask}>
         <CircularProgress size={100}/>
         <p>Preparando jogo...</p>
       </div>
@@ -33,4 +27,4 @@ export class Progress extends Component {
   }
 }
 
-export default withStyles(styles)(Progress);
+export default Progress;
