@@ -1,4 +1,4 @@
-import { Button, createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
+import { Button, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -25,7 +25,6 @@ const styles = {
 
 export class Pagination extends Component {
   static propTypes = {
-    classes: PropTypes.object.isRequired,
     page: PropTypes.number,
     min: PropTypes.number,
     max: PropTypes.number,
@@ -44,18 +43,18 @@ export class Pagination extends Component {
   }
 
   render() {
-    const { classes, page, min = 1 , max = 1000, disabled = false } = this.props;
+    const { page, min = 1 , max = 1000, disabled = false } = this.props;
     const disabledPrev = page === min;
     const disabledNext = page === max;
 
     return (
-      <div className={classes.container}>
+      <div style={styles.container}>
         <MuiThemeProvider theme={theme}>
           <Button
             variant="contained"
             size="medium"
             color="primary"
-            className={classes.margin}
+            style={styles.margin}
             disabled={disabledPrev || disabled}
             onClick={this.handleClickPrev}
           >
@@ -65,7 +64,7 @@ export class Pagination extends Component {
             variant="contained"
             size="medium"
             color="primary"
-            className={classes.margin}
+            style={styles.margin}
             disabled={disabledNext || disabled}
             onClick={this.handleClickNext}
           >
@@ -82,4 +81,4 @@ const mapStateToProps = (state) => {
   return { page };
 } 
 
-export default connect(mapStateToProps, { changePage })(withStyles(styles)(Pagination));
+export default connect(mapStateToProps, { changePage })(Pagination);

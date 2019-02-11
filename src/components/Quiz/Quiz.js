@@ -11,7 +11,6 @@ import ModalEndGame from '../../components/ModalEndGame/ModalEndGame';
 import Pagination from '../../components/Pagination/Pagination';
 import Timer from '../../components/Timer/Timer';
 import ListCharacter from '../ListCharacter/ListCharacter';
-import { Progress } from '../Progress/Progress';
 
 const styles = {
   header: {
@@ -55,12 +54,8 @@ class Quiz extends Component {
   }
 
   render() {
-    const { classes, characters, maxPage, finished } = this.props
-
-    if (!characters.length) {
-      return <Progress />;
-    }
-
+    const { classes, maxPage, finished } = this.props
+    
     return (
       <div>
         <AppBar

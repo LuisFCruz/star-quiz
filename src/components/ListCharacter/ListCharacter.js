@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import CardCharacter from '../CardCharacter/CardCharacter';
+import Progress from '../Progress/Progress';
 
 const styles = {
   grid: {
@@ -18,15 +19,20 @@ const styles = {
 
 export class ListCharacter extends Component {
   static propTypes = {
-    classes: PropTypes.object.isRequired,
     characters: PropTypes.array,
+    maxPage: PropTypes.number,
+    finished: PropTypes.bool
   };
 
   render() {
-    const { classes, characters } = this.props;
+    const { characters } = this.props;
+
+    if (!characters.length) {
+      return <Progress />;
+    }
     
     return (
-      <div className={classes.grid}>
+      <div style={styles.grid}>
         {characters.map(character => (
           <CardCharacter key={character.id} character={character} />
         ))}
