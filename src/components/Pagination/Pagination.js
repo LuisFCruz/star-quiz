@@ -1,7 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Button, MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core';
+import { Button, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { changePage } from '../../actions';
 
 const theme = createMuiTheme({
   palette: {
@@ -22,36 +25,36 @@ const styles = {
 
 export class Pagination extends Component {
   static propTypes = {
-    page: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
+    page: PropTypes.number,
     min: PropTypes.number,
     max: PropTypes.number,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    changePage: PropTypes.func,
   }
 
   handleClickPrev = () => {
     const { page } = this.props;
-    this.props.onChange(page - 1);
+    this.props.changePage(page - 1);
   }
 
   handleClickNext = () => {
     const { page } = this.props;
-    this.props.onChange(page + 1);
+    this.props.changePage(page + 1);
   }
 
   render() {
-    const { classes, page, min = 0 , max = 1000, disabled = false } = this.props;
+    const { page, min = 1 , max = 1000, disabled = false } = this.props;
     const disabledPrev = page === min;
     const disabledNext = page === max;
 
     return (
-      <div className={classes.container}>
+      <div style={styles.container}>
         <MuiThemeProvider theme={theme}>
           <Button
             variant="contained"
             size="medium"
             color="primary"
-            className={classes.margin}
+            style={styles.margin}
             disabled={disabledPrev || disabled}
             onClick={this.handleClickPrev}
           >
@@ -61,7 +64,7 @@ export class Pagination extends Component {
             variant="contained"
             size="medium"
             color="primary"
-            className={classes.margin}
+            style={styles.margin}
             disabled={disabledNext || disabled}
             onClick={this.handleClickNext}
           >
@@ -73,4 +76,9 @@ export class Pagination extends Component {
   }
 }
 
-export default withStyles(styles)(Pagination);
+const mapStateToProps = (state) => {
+  const { page } = state;
+  return { page };
+} 
+
+export default connect(mapStateToProps, { changePage })(Pagination);

@@ -32,7 +32,7 @@ export const mergeCharacterWidthComplements = (characters, complements) => {
     const homeworld = extractName(homeworldUrl, complements, 'homeworld');
     const vehicles = extractNamesComplement(character, complements, 'vehicles') || 'n/a';
 
-    aggr[id] = {
+    character = {
       id,
       name,
       height,
@@ -45,8 +45,8 @@ export const mergeCharacterWidthComplements = (characters, complements) => {
       helped: false,
     };
 
-    return aggr;
-  }, {});
+    return [...aggr, character];
+  }, []);
 }
 
 const extractId = (url) => {

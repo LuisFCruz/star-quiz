@@ -1,6 +1,9 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, withStyles, DialogActions, Button, DialogContent } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { selectCharacter } from '../../actions';
 import Avatar from '../Avatar/Avatar';
 
 const styles = theme => ({
@@ -25,21 +28,20 @@ const styles = theme => ({
 
 export class Modal extends Component {
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
-    character: PropTypes.object
+    classes: PropTypes.object,
+    character: PropTypes.object,
+    selectCharacter: PropTypes.func,
   }
 
   handleClose = () => {
-    this.props.onClose();
+    this.props.selectCharacter(null);
   };
 
   render() {
-    const { character, open, classes } = this.props;
+    const { character, classes } = this.props;
+    const open = true;
 
-    let details = '';
-
-    if (character) {
+    if (!character) { return null; }
       const {
         id,
         height,
@@ -50,7 +52,10 @@ export class Modal extends Component {
         vehicles
       } = character;
 
-      details = (
+
+    return (
+      <Dialog onClose={this.handleClose} open={open}>
+        <DialogTitle>Details</DialogTitle>
         <DialogContent className={ classes.content }>
           <Avatar id={id} className={ classes.media } />
           <div className={ classes.details }>
@@ -74,13 +79,6 @@ export class Modal extends Component {
             </p>
           </div>
         </DialogContent>
-      );
-    }
-
-    return (
-      <Dialog onClose={this.handleClose} open={open}>
-        <DialogTitle>Details</DialogTitle>
-        {details}
         <DialogActions>
           <Button onClick={this.handleClose} color="primary">
             Close
@@ -91,4 +89,9 @@ export class Modal extends Component {
   }
 }
 
-export default withStyles(styles)(Modal);
+const mapStateToProps = (states) => {
+  const { selectedCharacter } = states;
+  return { character: selectedCharacter };
+}
+
+export default connect(mapStateToProps, { selectCharacter })(withStyles(styles)(Modal));

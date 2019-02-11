@@ -1,8 +1,12 @@
-import { Card, withStyles, CardActions, Button } from '@material-ui/core';
-import React, { Component } from 'react';
+import { Button, Card, CardActions, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { selectCharacter, updateCharacters, sumScore } from '../../actions';
 import Avatar from '../Avatar/Avatar';
 import FieldAction from '../FieldAction/FieldAction';
+
 
 const styles = {
   card: {
@@ -33,63 +37,80 @@ class CardCharacter extends Component {
   }
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    character: PropTypes.string.isRequired,
-    onHelpClick: PropTypes.func.isRequired,
-    onReply: PropTypes.func.isRequired,
-    answered: PropTypes.bool,
-    disabled: PropTypes.bool,
+    character: PropTypes.object.isRequired,
+    finished: PropTypes.bool,
+    updateCharacters: PropTypes.func,
+    selectCharacter: PropTypes.func,
+    sumScore: PropTypes.func,
   };
 
   handleHelpClick = () => {
     const { character } = this.props;
-    this.props.onHelpClick(character);
+    this.props.updateCharacters({ ...character, helped: true });
+    this.props.selectCharacter(character);
   }
 
   handleReplyClick = () => {
     this.setState({ reply: true });
   }
-
+  
   handleConfirm = (name) => {
     const { character } = this.props;
-    if (name) {
-      this.props.onReply(character, name);
+    if (name && character.name.toUpperCase() === name.toUpperCase()) {
+      this.props.updateCharacters({ ...character, answered: true });
+      this.props.sumScore(character);
     }
     this.setState({ reply: false });
   }
 
-  render() {
-    const { character, answered, disabled, classes } = this.props;
+  renderActions = () => {
+    const { character, finished, classes } = this.props;
     const { reply } = this.state;
-    let textField = (
+
+    if (!finished && !character.answered && reply) {
+      return <FieldAction onConfirm={this.handleConfirm} />
+    }
+
+    return (
       <div className={classes.buttons}>
         <Button
           color="primary"
           variant="contained"
           onClick={this.handleReplyClick}
-          disabled={disabled || answered}
+          disabled={finished || character.answered}
         > ? </Button>
         <Button
           variant="contained"
           onClick={this.handleHelpClick}
-          disabled={disabled || answered}
+          disabled={finished || character.answered}
         > ... </Button>
       </div>
     );
 
-    if (!disabled && !answered && reply) {
-      textField = <FieldAction onConfirm={this.handleConfirm} />
-    }
+    
+  }
+
+  render() {
+    const { character, classes } = this.props;
     
     return (
 
       <Card >
-        <Avatar id={character} className={classes.media}/>
+        <Avatar id={character.id} className={classes.media}/>
         <CardActions className={classes.actions}>
-          {textField}
+          {this.renderActions()}
         </CardActions>
       </Card >
     )
   }
 }
 
-export default withStyles(styles)(CardCharacter);
+const mapStateToProps = (state) => {
+  const { finished } = state;
+  return { finished };
+};
+
+export default connect(
+  mapStateToProps,
+  { selectCharacter, updateCharacters, sumScore }
+)(withStyles(styles)(CardCharacter));

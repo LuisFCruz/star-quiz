@@ -1,6 +1,20 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogActions, Button, DialogContent, FormControl, InputLabel, Input, Typography, withStyles } from '@material-ui/core';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  Input,
+  InputLabel,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { savePlayer } from '../../apis/starwars-api';
 
 const styles = {
   score: {
@@ -18,10 +32,9 @@ const styles = {
 export class ModalEndGame extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    open: PropTypes.bool.isRequired,
-    score: PropTypes.number.isRequired,
-    onConfirm: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    finished: PropTypes.bool,
+    score: PropTypes.number,
+    dispatch: PropTypes.func,
   }
 
   constructor() {
@@ -30,19 +43,22 @@ export class ModalEndGame extends Component {
     this.state = {
       name: '',
       email: '',
-      error: false
+      error: false,
+      open: true,
     }
   }
 
   handleClose = () => {
-    this.props.onClose();
+    this.setState({ open: false });
   }
 
   handleConfirm = () => {
     const { name, email } = this.state;
+    const { score } = this.props;
     const error = !name;
     if (!error) {
-      this.props.onConfirm({name, email});
+      savePlayer({name, email, score});
+      this.handleClose();
     }
 
     this.setState({ error });
@@ -58,11 +74,11 @@ export class ModalEndGame extends Component {
   }
 
   render() {
-    const { classes, open, score } = this.props;
-    const { error } = this.state
+    const { classes, finished, score } = this.props;
+    const { error, open } = this.state
 
     return (
-      <Dialog onClose={this.handleClose} open={open}>
+      <Dialog onClose={this.handleClose} open={finished && open}>
         <DialogTitle>Game over!</DialogTitle>
         <DialogContent>
           <Typography className={classes.score}>{score} points</Typography>
@@ -89,4 +105,9 @@ export class ModalEndGame extends Component {
   }
 }
 
-export default withStyles(styles)(ModalEndGame);
+const mapStateToProps = (state) => {
+  const { finished, score } = state;
+  return { finished, score };
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(ModalEndGame));
