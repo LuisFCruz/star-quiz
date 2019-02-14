@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:jest/recommended"],
   "env": {
     "browser": true,
     "es6": true
@@ -14,7 +14,7 @@
       "experimentalObjectRestSpread": true
     }
   },
-  "plugins": ["react"],
+  "plugins": ["react", "jest"],
   "rules": {
     "comma-dangle": 0,
     "react/jsx-uses-vars": 1,
