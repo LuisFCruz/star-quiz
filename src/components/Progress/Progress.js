@@ -13,7 +13,7 @@ const styles = {
     zIndex: '1000',
     flexDirection: 'column'
   }
-}
+};
 
 export class Progress extends Component {
   render() {
@@ -23,7 +23,7 @@ export class Progress extends Component {
         <CircularProgress size={100}/>
         <p>Preparando jogo...</p>
       </div>
-    )
+    );
   }
 }
 
