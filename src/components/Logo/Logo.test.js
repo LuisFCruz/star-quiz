@@ -1,16 +1,24 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
+import React from 'react';
+import renderer from 'react-test-renderer';
 
-import { Logo } from './Logo'
+import { Logo } from './Logo';
 
 describe('<Logo />', () => {
-  const defaultProps = {
-    image: 'http://star-wars.com/image.jpg',
-    className: ''
-  }
-  const wrapper = renderer.create(<Logo {...defaultProps} />)
+  
+  test('render without className', () => {
+    const props = {
+      image: 'http://star-wars.com/image.jpg',
+    };
+    const wrapper = renderer.create(<Logo {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
 
-  test('render', () => {
-    expect(wrapper).toMatchSnapshot()
-  })
-})
+  test('render with className', () => {
+    const props = {
+      image: 'http://star-wars.com/image.jpg',
+      className: 'something'
+    };
+    const wrapper = renderer.create(<Logo {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+});

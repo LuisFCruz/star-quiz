@@ -15,7 +15,7 @@ const styles = {
     maxWidth: '1000px',
     margin: '0 auto',
   }
-}
+};
 
 export class ListCharacter extends Component {
   static propTypes = {
@@ -51,6 +51,6 @@ const mapStateToProps = (state) => {
   const maxPage = Math.ceil(allCharacter.length / 10);
 
   return { characters, maxPage, finished };
-}
+};
 
 export default connect(mapStateToProps)(withStyles(styles)(ListCharacter));

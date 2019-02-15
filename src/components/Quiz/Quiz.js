@@ -1,16 +1,16 @@
 import { AppBar, Toolbar, withStyles } from '@material-ui/core';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import { fetchCharacters, startTimer } from '../../actions';
+import ListCharacter from '../ListCharacter/ListCharacter';
 import Logo from '../../components/Logo/Logo';
 import Modal from '../../components/Modal/Modal';
 import ModalEndGame from '../../components/ModalEndGame/ModalEndGame';
 import Pagination from '../../components/Pagination/Pagination';
 import Timer from '../../components/Timer/Timer';
-import ListCharacter from '../ListCharacter/ListCharacter';
 
 const styles = {
   header: {
@@ -54,7 +54,7 @@ class Quiz extends Component {
   }
 
   render() {
-    const { classes, maxPage, finished } = this.props
+    const { classes, maxPage, finished } = this.props;
     
     return (
       <div>

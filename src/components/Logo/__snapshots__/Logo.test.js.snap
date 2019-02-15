@@ -1,6 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Logo /> render 1`] = `
+exports[`<Logo /> render with className 1`] = `
+<img
+  alt=""
+  className="something"
+  src="http://star-wars.com/image.jpg"
+/>
+`;
+
+exports[`<Logo /> render without className 1`] = `
 <img
   alt=""
   className=""
