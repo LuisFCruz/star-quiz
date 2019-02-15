@@ -33,7 +33,7 @@ class CardCharacter extends Component {
 
     this.state = {
       reply: false,
-    }
+    };
   }
   static propTypes = {
     classes: PropTypes.object.isRequired,
@@ -101,7 +101,7 @@ class CardCharacter extends Component {
           {this.renderActions()}
         </CardActions>
       </Card >
-    )
+    );
   }
 }
 
