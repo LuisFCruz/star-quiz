@@ -6,14 +6,15 @@ import { FieldAction } from './FieldAction';
 describe('<FieldAction />', () => {
   let component;
   let wrapper;
-  const props = {
-    classes: {
-      button: 'button',
-    },
-    onConfirm: jest.fn(),
-  };
-
+  let props;
+  
   beforeEach(() => {
+    props = {
+      classes: {
+        button: 'button',
+      },
+      onConfirm: jest.fn()
+    };
     wrapper = shallow(<FieldAction {...props} />);
     component  = wrapper.instance();
   });
@@ -23,7 +24,7 @@ describe('<FieldAction />', () => {
     expect(FieldAction).toBeDefined();
     expect(component).toBeInstanceOf(FieldAction);
   });
-  
+
   test('render', () => {
     expect(wrapper).toMatchSnapshot();
   });
@@ -38,6 +39,14 @@ describe('<FieldAction />', () => {
     input.simulate('change', { target: { value: 'value changed'  } });
     expect(handleSpy).toHaveBeenCalled();
   });
+
+  test('should have changed value', () => {
+    component.handleChange({ target:  { } });
+    expect(wrapper.state('value')).toBe('');
+
+    component.handleChange({ target:  { value: 'value changed'  } });
+    expect(wrapper.state('value')).toBe('value changed');
+  });
   
   test('should have call handleConfirmClick()', () => {    
     const handleSpy = jest.fn();
@@ -51,8 +60,8 @@ describe('<FieldAction />', () => {
     expect(handleSpy).toHaveBeenCalled();
   });
 
-  test('should have changed value', () => {
-    component.handleChange({ target:  { value: 'value changed'  } });
-    expect(wrapper.state('value')).toBe('value changed');
+  test('should have confirm change', () => {
+    component.handleConfirmClick();
+    expect(component.props.onConfirm).toHaveBeenCalledTimes(1);
   });
 });
