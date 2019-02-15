@@ -7,9 +7,9 @@ ShallowWrapper {
     classes={
       Object {
         "button": "button",
-        "onConfirm": [MockFunction],
       }
     }
+    onConfirm={[MockFunction]}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],

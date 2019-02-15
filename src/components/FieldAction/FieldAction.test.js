@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { FieldAction } from './FieldAction';
-import { TextField } from '@material-ui/core';
 
 describe('<FieldAction />', () => {
   let component;
@@ -10,8 +9,8 @@ describe('<FieldAction />', () => {
   const props = {
     classes: {
       button: 'button',
-      onConfirm: jest.fn(),
-    }
+    },
+    onConfirm: jest.fn(),
   };
 
   beforeEach(() => {
