@@ -1,0 +1,20 @@
+
+.CardCharacter-card {
+    max-width: 400;
+}
+
+.CardCharacter-media {
+  height: 200px;
+  width: 100%;
+}
+
+.CardCharacter-actions {
+  justify-content: center;
+  flex-wrap: wrap
+}
+
+.CardCharacter-buttons {
+  justify-content: space-around;
+  display: flex;
+  width: 100%;
+}
