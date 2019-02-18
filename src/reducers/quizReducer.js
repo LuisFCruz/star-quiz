@@ -6,7 +6,7 @@ export const changePageReducer = (state = 1, action) => {
     return state;
   };
   
-  export const timerReducer = (state = null, action) => {
+  export const timerReducer = (state = false, action) => {
     if (action.type === 'TIMER_CHANGED') {
       return action.payload;
     }
