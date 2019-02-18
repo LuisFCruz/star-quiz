@@ -3,9 +3,7 @@ export const charactersReducer = (state = [], action) => {
     case 'FETCH_CHARACTERS':
       return action.payload;
     case 'CHARACTER_UPDATE':
-      const index = state.findIndex(({ id }) => id === action.payload.id);
-      state.splice(index, 1, action.payload);
-      return [...state];
+      return updateCharacter(state, action.payload);
     default:
       return state;
   }
@@ -19,34 +17,8 @@ export const selectCharacterReducer = (state = null, action) => {
   return state;
 };
 
-export const changePageReducer = (state = 1, action) => {
-  if (action.type === 'PAGE_CHANGE') {
-    return action.payload;
-  }
-
-  return state;
+const updateCharacter = (state, payload) => {
+  const index = state.findIndex(({ id }) => id === payload.id);
+  state.splice(index, 1, payload);
+  return [...state];
 };
-
-export const timerReducer = (state = null, action) => {
-  if (action.type === 'TIMER_CHANGED') {
-    return action.payload;
-  }
-
-  return state;
-}
-
-export const updateStatusReducer = (state = false, action) => {
-  if (action.type === 'FINISHED_GAME') {
-    return action.payload;
-  }
-
-  return state;
-}
-
-export const totalReducer = (state = 0, action) => {
-  if (action.type === 'ANSWER') {
-    return state + action.payload;
-  }
-
-  return state;
-}

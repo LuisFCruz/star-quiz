@@ -21,22 +21,20 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     paddingTop: '10px',
-    paddingBottom: '10px',
+    paddingBottom: '10px'
   },
   media: {
-    width: '64px',
+    width: '64px'
   }
-}
+};
 
 class Quiz extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    characters: PropTypes.array,
     maxPage: PropTypes.number,
     finished: PropTypes.bool,
     fetchCharacters: PropTypes.func,
-    startTimer: PropTypes.func,
-
+    startTimer: PropTypes.func
   };
 
   componentDidMount() {
@@ -47,25 +45,21 @@ class Quiz extends Component {
     try {
       await this.props.fetchCharacters([1, 2, 3]);
       this.props.startTimer(true);
-    }
-    catch(err) {
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   render() {
     const { classes, maxPage, finished } = this.props;
-    
+
     return (
       <div>
-        <AppBar
-          position="static"
-          className={classes.header}
-        >
+        <AppBar position='static' className={classes.header}>
           <Toolbar className={classes.bar}>
-            <Link to="/">
+            <Link to='/'>
               <Logo
-                image="/assets/images/rebel.png"
+                image='/assets/images/rebel.png'
                 className={classes.media}
               />
             </Link>
@@ -73,20 +67,23 @@ class Quiz extends Component {
           </Toolbar>
         </AppBar>
         <ListCharacter />
-        <Pagination min={1} max={maxPage} disabled={finished}/>
+        <Pagination min={1} max={maxPage} disabled={finished} />
         <Modal />
         <ModalEndGame />
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { characters, finished } = state;
 
   const maxPage = Math.ceil(characters.length / 10);
 
-  return { characters, maxPage, finished };
-}
+  return { maxPage, finished };
+};
 
-export default connect(mapStateToProps, { fetchCharacters, startTimer })(withStyles(styles)(Quiz));
+export default connect(
+  mapStateToProps,
+  { fetchCharacters, startTimer }
+)(withStyles(styles)(Quiz));
