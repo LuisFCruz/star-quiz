@@ -31,7 +31,7 @@ export class Timer extends Component {
   }
 
   componentDidMount = () => {
-    const { duration = 0, start } = this.props;
+    const { duration, start } = this.props;
     this.setSecondsRemaining(duration);
 
     if (start) { this.startCountDown(); }

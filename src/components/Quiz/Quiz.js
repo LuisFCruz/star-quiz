@@ -28,7 +28,7 @@ const styles = {
   }
 };
 
-class Quiz extends Component {
+export class Quiz extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     maxPage: PropTypes.number,

@@ -86,7 +86,6 @@ export class Home extends Component {
               aria-label='jogar'
               className={classes.button}
             >
-              {' '}
               JOGAR!
             </Button>
           </div>

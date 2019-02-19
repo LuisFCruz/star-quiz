@@ -3,32 +3,58 @@ import { shallow } from 'enzyme';
 
 import { Timer } from './Timer';
 
+
 describe('<Timer />', () => {
-  const props = {
-    classes: {},
-    duration: 120,
-    start: false,
-  };
-  const wrapper = shallow(<Timer {...props} />);
+  let wrapper;
+  let component;
+  
+  beforeEach(() => {
+    const props = {
+      classes: {},
+      duration: 120,
+      start: false,
+      finishGame: jest.fn(),
+    };
+
+    jest.useFakeTimers();
+
+    wrapper = shallow(<Timer {...props} />);
+    component =  wrapper.instance();
+  });
 
   test('smoke test', () => {
     expect(Timer).toBeDefined();
-    expect(wrapper.instance()).toBeInstanceOf(Timer);
+    expect(component).toBeInstanceOf(Timer);
   });
 
-  test('render', () => {
-    expect(wrapper).toMatchSnapshot();
+  describe('render', () => {
+  
+    test('without started timer', () => {
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    test('with started timer', () => {
+      const props = {
+        classes: {},
+        duration: 120,
+        start: true,
+        finishGame: jest.fn(),
+      };
+      const localWrapper = shallow(<Timer {...props} />);
+      expect(localWrapper).toMatchSnapshot();
+    });
   });
+  
+
 
   test('should transform seconds to minutes ', () => {
     expect(wrapper.instance().secondsToMinutes).toBeDefined();
-    const minutes = wrapper.instance().secondsToMinutes(60);
-    expect(minutes).toBe('01:00');
+    const minutes = wrapper.instance().secondsToMinutes(600);
+    expect(minutes).toBe('10:00');
   }); 
 
   test('should have set timer', () => {
     const seconds = 115;
-    const component =  wrapper.instance();
 
     expect(component.setSecondsRemaining).toBeDefined();
 
@@ -39,6 +65,31 @@ describe('<Timer />', () => {
   });
 
   test('should have call action finishGame()', () => {
-    //Implementar quando estudar testes de ações do redux
+    const seconds = 0;
+
+    component.setSecondsRemaining(seconds);
+
+    expect(wrapper.state('stopwatch')).toBe('00:00');
+    expect(component.props.finishGame).toHaveBeenCalledTimes(1);
+  });
+
+  test('should have initilized a timer', () => {
+    component.startCountDown();
+    jest.runAllTimers();
+    expect(setInterval).toHaveBeenCalledTimes(1);
+  });
+
+  test('should not have call setInterval()', () => {
+    component.interval = 1;
+    component.startCountDown();
+    jest.runAllTimers();
+    expect(setInterval).toHaveBeenCalledTimes(0);
+  });
+
+  test('unmount', () => {
+    component.interval = 1;
+    jest.runAllTimers();
+    wrapper.unmount();
+    expect(clearInterval).toHaveBeenCalledTimes(1);
   });
 });

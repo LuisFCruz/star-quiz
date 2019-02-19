@@ -1,7 +1,14 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, withStyles } from '@material-ui/core';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  withStyles
+} from '@material-ui/core';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import { selectCharacter } from '../../actions';
 import Avatar from '../Avatar/Avatar';
@@ -11,18 +18,18 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.up('sm')]: {
-      flexDirection: 'row',
-    },
+      flexDirection: 'row'
+    }
   },
-  media:{
+  media: {
     maxWidth: '200px',
     maxHeight: '250px'
   },
   details: {
-    paddingLeft: '10px',
+    paddingLeft: '10px'
   },
   label: {
-    fontWeight: '700',
+    fontWeight: '700'
   }
 });
 
@@ -30,8 +37,8 @@ export class Modal extends Component {
   static propTypes = {
     classes: PropTypes.object,
     character: PropTypes.object,
-    selectCharacter: PropTypes.func,
-  }
+    selectCharacter: PropTypes.func
+  };
 
   handleClose = () => {
     this.props.selectCharacter(null);
@@ -41,24 +48,25 @@ export class Modal extends Component {
     const { character, classes } = this.props;
     const open = true;
 
-    if (!character) { return null; }
-      const {
-        id,
-        height,
-        hairColor,
-        films,
-        species,
-        homeworld,
-        vehicles
-      } = character;
-
+    if (!character) {
+      return null;
+    }
+    const {
+      id,
+      height,
+      hairColor,
+      films,
+      species,
+      homeworld,
+      vehicles
+    } = character;
 
     return (
       <Dialog onClose={this.handleClose} open={open}>
         <DialogTitle>Details</DialogTitle>
-        <DialogContent className={ classes.content }>
-          <Avatar id={id} className={ classes.media } />
-          <div className={ classes.details }>
+        <DialogContent className={classes.content}>
+          <Avatar id={id} className={classes.media} />
+          <div className={classes.details}>
             <p>
               <span className={classes.label}>Specie:</span> {species}
             </p>
@@ -80,18 +88,21 @@ export class Modal extends Component {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={this.handleClose} color='primary'>
             Close
           </Button>
         </DialogActions>
       </Dialog>
-    )
+    );
   }
 }
 
-const mapStateToProps = (states) => {
+const mapStateToProps = states => {
   const { selectedCharacter } = states;
   return { character: selectedCharacter };
-}
+};
 
-export default connect(mapStateToProps, { selectCharacter })(withStyles(styles)(Modal));
+export default connect(
+  mapStateToProps,
+  { selectCharacter }
+)(withStyles(styles)(Modal));

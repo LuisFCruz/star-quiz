@@ -1,6 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Timer /> render 1`] = `
+exports[`<Timer /> render with started timer 1`] = `
+<div>
+  02:00
+</div>
+`;
+
+exports[`<Timer /> render without started timer 1`] = `
 <div>
   02:00
 </div>

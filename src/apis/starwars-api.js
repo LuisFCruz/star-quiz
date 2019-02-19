@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = 'https://swapi.co/api/';
 
-export const getCharacters = async (pages = []) => {
+export const getCharacters = async (pages) => {
   const characters = await Promise.all(
     pages.map(page => {
       const url = `${BASE_URL}people?page=${page}`;
