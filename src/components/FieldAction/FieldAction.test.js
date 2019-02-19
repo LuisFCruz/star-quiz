@@ -18,7 +18,6 @@ describe('<FieldAction />', () => {
     wrapper = shallow(<FieldAction {...props} />);
     component  = wrapper.instance();
   });
-
   
   test('smoke test', () => {
     expect(FieldAction).toBeDefined();

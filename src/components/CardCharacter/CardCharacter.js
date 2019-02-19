@@ -7,7 +7,7 @@ import { selectCharacter, updateCharacters, sumScore } from '../../actions';
 import Avatar from '../Avatar/Avatar';
 import FieldAction from '../FieldAction/FieldAction';
 
-class CardCharacter extends Component {
+export class CardCharacter extends Component {
   constructor() {
     super();
 
