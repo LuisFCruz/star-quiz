@@ -9,7 +9,7 @@ const styles = {
     fontWeight: '700',
     fontSize: '30px',
   },
-}
+};
 
 export class Timer extends Component {
   static propTypes = {
@@ -25,13 +25,13 @@ export class Timer extends Component {
     this.state = {
       stopwatch: '',
       secondsRemaining: 0
-    }
+    };
 
     this.interval = null;
   }
 
   componentDidMount = () => {
-    const { duration = 0, start } = this.props;
+    const { duration, start } = this.props;
     this.setSecondsRemaining(duration);
 
     if (start) { this.startCountDown(); }
@@ -83,13 +83,13 @@ export class Timer extends Component {
       <div className={classes.clock}>
         {this.state.stopwatch}
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   const { start } = state;
   return { start };
-}
+};
 
 export default connect(mapStateToProps, { finishGame })(withStyles(styles)(Timer));

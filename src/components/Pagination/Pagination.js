@@ -72,13 +72,13 @@ export class Pagination extends Component {
           </Button>
         </MuiThemeProvider>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   const { page } = state;
   return { page };
-} 
+};
 
 export default connect(mapStateToProps, { changePage })(Pagination);

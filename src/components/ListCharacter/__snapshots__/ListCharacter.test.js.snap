@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ListCharacter /> render width characters 1`] = `
+<div
+  style={
+    Object {
+      "display": "grid",
+      "gridGap": "10px",
+      "gridTemplateColumns": "repeat(auto-fill, minmax(180px, 1fr))",
+      "margin": "0 auto",
+      "maxWidth": "1000px",
+      "padding": "20px",
+    }
+  }
+>
+  <Connect(CardCharacter)
+    character={
+      Object {
+        "id": "1",
+      }
+    }
+    key="1"
+  />
+</div>
+`;
+
+exports[`<ListCharacter /> render widthout characters 1`] = `<Progress />`;

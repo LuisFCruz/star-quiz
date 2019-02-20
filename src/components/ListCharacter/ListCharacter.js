@@ -15,13 +15,11 @@ const styles = {
     maxWidth: '1000px',
     margin: '0 auto',
   }
-}
+};
 
 export class ListCharacter extends Component {
   static propTypes = {
     characters: PropTypes.array,
-    maxPage: PropTypes.number,
-    finished: PropTypes.bool
   };
 
   render() {
@@ -42,15 +40,14 @@ export class ListCharacter extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { characters: allCharacter, page, finished } = state;
+  const { characters: allCharacter, page } = state;
 
   const start = (page - 1) * 10;
   const end = (page * 10);
   
   const characters = allCharacter.slice(start, end);
-  const maxPage = Math.ceil(allCharacter.length / 10);
 
-  return { characters, maxPage, finished };
-}
+  return { characters };
+};
 
 export default connect(mapStateToProps)(withStyles(styles)(ListCharacter));

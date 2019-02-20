@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ModalEndGame /> render 1`] = `
+<WithStyles(Dialog)
+  onClose={[Function]}
+  open={true}
+>
+  <WithStyles(DialogTitle)>
+    Game over!
+  </WithStyles(DialogTitle)>
+  <WithStyles(DialogContent)>
+    <WithStyles(Typography)>
+      115
+       points
+    </WithStyles(Typography)>
+    <WithStyles(Typography)>
+      Save your score!
+    </WithStyles(Typography)>
+    <WithStyles(FormControl)
+      error={false}
+    >
+      <WithStyles(WithFormControlContext(InputLabel))>
+        Name
+      </WithStyles(WithFormControlContext(InputLabel))>
+      <WithStyles(Input)
+        onChange={[Function]}
+      />
+    </WithStyles(FormControl)>
+    <WithStyles(FormControl)>
+      <WithStyles(WithFormControlContext(InputLabel))>
+        Email
+      </WithStyles(WithFormControlContext(InputLabel))>
+      <WithStyles(Input)
+        onChange={[Function]}
+      />
+    </WithStyles(FormControl)>
+  </WithStyles(DialogContent)>
+  <WithStyles(DialogActions)>
+    <WithStyles(Button)
+      color="primary"
+      onClick={[Function]}
+    >
+      Cancel
+    </WithStyles(Button)>
+    <WithStyles(Button)
+      color="primary"
+      onClick={[Function]}
+    >
+      Save
+    </WithStyles(Button)>
+  </WithStyles(DialogActions)>
+</WithStyles(Dialog)>
+`;

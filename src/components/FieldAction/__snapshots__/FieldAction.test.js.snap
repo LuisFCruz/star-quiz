@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FieldAction /> render 1`] = `
+<div>
+  <TextField
+    onChange={[Function]}
+    placeholder=""
+    required={false}
+    select={false}
+    variant="standard"
+  />
+  <WithStyles(Button)
+    className="button"
+    color="primary"
+    onClick={[Function]}
+    variant="contained"
+  >
+    ok
+  </WithStyles(Button)>
+</div>
+`;

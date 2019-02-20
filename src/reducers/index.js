@@ -1,13 +1,16 @@
 import { combineReducers } from 'redux';
 
 import {
-  changePageReducer,
   charactersReducer,
   selectCharacterReducer,
+} from './characterReducer';
+
+import {
+  changePageReducer,
   timerReducer,
   updateStatusReducer,
   totalReducer,
-} from './characterReducer';
+} from './quizReducer';
 
 export default combineReducers({
   characters: charactersReducer,

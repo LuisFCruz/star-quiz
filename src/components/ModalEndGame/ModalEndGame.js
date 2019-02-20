@@ -27,14 +27,13 @@ const styles = {
     display: 'block',
     width: '100%'
   }
-}
+};
 
 export class ModalEndGame extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     finished: PropTypes.bool,
     score: PropTypes.number,
-    dispatch: PropTypes.func,
   }
 
   constructor() {
@@ -45,7 +44,7 @@ export class ModalEndGame extends Component {
       email: '',
       error: false,
       open: true,
-    }
+    };
   }
 
   handleClose = () => {
@@ -75,7 +74,7 @@ export class ModalEndGame extends Component {
 
   render() {
     const { classes, finished, score } = this.props;
-    const { error, open } = this.state
+    const { error, open } = this.state;
 
     return (
       <Dialog onClose={this.handleClose} open={finished && open}>
@@ -101,13 +100,13 @@ export class ModalEndGame extends Component {
           </Button>
         </DialogActions>
       </Dialog>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   const { finished, score } = state;
   return { finished, score };
-}
+};
 
 export default connect(mapStateToProps)(withStyles(styles)(ModalEndGame));

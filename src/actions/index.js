@@ -1,7 +1,10 @@
 import { getAllComplements, getCharacters } from '../apis/starwars-api';
-import { mergeCharacterWidthComplements, reduceComplementsCharacter } from '../services/utils';
+import {
+  mergeCharacterWidthComplements,
+  reduceComplementsCharacter
+} from '../services/utils';
 
-export const fetchCharacters = (pages = []) => async (dispatch) => {
+export const fetchCharacters = (pages = []) => async dispatch => {
   const characters = await getCharacters(pages);
   const complementsUrls = reduceComplementsCharacter(characters);
   const complements = await getAllComplements(complementsUrls);
@@ -11,44 +14,44 @@ export const fetchCharacters = (pages = []) => async (dispatch) => {
   dispatch({ type: 'FETCH_CHARACTERS', payload });
 };
 
-export const updateCharacters = (character) => {
+export const updateCharacters = character => {
   return {
     type: 'CHARACTER_UPDATE',
-    payload: character,
-  }
-}
+    payload: character
+  };
+};
 
-export const selectCharacter = (character) => {
+export const selectCharacter = character => {
   return {
     type: 'CHARACTER_SELECTED',
-    payload: character,
-  }
-}
+    payload: character
+  };
+};
 
-export const changePage = (page) => {
+export const changePage = page => {
   return {
     type: 'PAGE_CHANGE',
-    payload: page,
-  }
-}
+    payload: page
+  };
+};
 
-export const startTimer = (start) => {
+export const startTimer = start => {
   return {
     type: 'TIMER_CHANGED',
-    payload: start,
-  }
-}
+    payload: start
+  };
+};
 
-export const finishGame = (finished) => {
+export const finishGame = finished => {
   return {
     type: 'FINISHED_GAME',
-    payload: finished,
-  }
-}
+    payload: finished
+  };
+};
 
-export const sumScore = (character) => {
+export const sumScore = character => {
   return {
     type: 'ANSWER',
-    payload: character.helped ? 5 : 10,
-  }
-}
+    payload: character.helped ? 5 : 10
+  };
+};

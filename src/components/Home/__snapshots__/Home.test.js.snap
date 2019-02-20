@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home /> render 1`] = `
+<div>
+  <h1>
+    Star Quiz
+  </h1>
+  <div>
+    <div>
+      <img
+        alt="Imagem: Dath Vader"
+        src="/assets/images/darthvader.png"
+      />
+    </div>
+    <div>
+      <p>
+        Você conhece os personagens de Star Wars?
+      </p>
+      <p>
+        Sim? Então mostre-nos!
+      </p>
+      <p>
+        Com esse quiz você terá oportunidade de identificar os principais personagens de Starwars, marcar pontos e se tornar um expert nesta série de filmes maravilhosa!
+      </p>
+      <WithStyles(Button)
+        aria-label="jogar"
+        component={[Function]}
+        title="jogar"
+      >
+        JOGAR!
+      </WithStyles(Button)>
+    </div>
+  </div>
+</div>
+`;

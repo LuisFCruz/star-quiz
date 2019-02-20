@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Modal /> render with character 1`] = `
+<WithStyles(Dialog)
+  onClose={[Function]}
+  open={true}
+>
+  <WithStyles(DialogTitle)>
+    Details
+  </WithStyles(DialogTitle)>
+  <WithStyles(DialogContent)>
+    <Avatar
+      id="1"
+    />
+    <div>
+      <p>
+        <span>
+          Specie:
+        </span>
+         
+        human
+      </p>
+      <p>
+        <span>
+          Height:
+        </span>
+         
+        178
+      </p>
+      <p>
+        <span>
+          Hair:
+        </span>
+         
+        red
+      </p>
+      <p>
+        <span>
+          Planet:
+        </span>
+         
+        earth
+      </p>
+      <p>
+        <span>
+          Movies:
+        </span>
+         
+        star wars
+      </p>
+      <p>
+        <span>
+          Vehicles:
+        </span>
+         
+        car
+      </p>
+    </div>
+  </WithStyles(DialogContent)>
+  <WithStyles(DialogActions)>
+    <WithStyles(Button)
+      color="primary"
+      onClick={[Function]}
+    >
+      Close
+    </WithStyles(Button)>
+  </WithStyles(DialogActions)>
+</WithStyles(Dialog)>
+`;
+
+exports[`<Modal /> render without character 1`] = `""`;

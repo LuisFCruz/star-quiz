@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Progress /> render 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "center",
+      "background": "#fff",
+      "display": "flex",
+      "flexDirection": "column",
+      "height": "100%",
+      "justifyContent": "center",
+      "position": "fixed",
+      "width": "100%",
+      "zIndex": "1000",
+    }
+  }
+>
+  <WithStyles(CircularProgress)
+    size={100}
+  />
+  <p>
+    Preparando jogo...
+  </p>
+</div>
+`;

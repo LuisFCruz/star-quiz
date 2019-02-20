@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class Logo extends Component {
   static propTypes = {
@@ -15,7 +15,7 @@ export class Logo extends Component {
         className={className}
         alt=""
       />
-    )
+    );
   }
 }
 

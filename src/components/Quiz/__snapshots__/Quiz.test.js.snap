@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Quiz /> render 1`] = `
+<div>
+  <WithStyles(AppBar)
+    position="static"
+  >
+    <WithStyles(Toolbar)>
+      <Link
+        replace={false}
+        to="/"
+      >
+        <Logo
+          image="/assets/images/rebel.png"
+        />
+      </Link>
+      <Connect(WithStyles(Timer))
+        duration={120}
+      />
+    </WithStyles(Toolbar)>
+  </WithStyles(AppBar)>
+  <Connect(WithStyles(ListCharacter)) />
+  <Connect(Pagination)
+    disabled={false}
+    max={3}
+    min={1}
+  />
+  <Connect(WithStyles(Modal)) />
+  <Connect(WithStyles(ModalEndGame)) />
+</div>
+`;

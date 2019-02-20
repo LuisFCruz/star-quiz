@@ -1,6 +1,6 @@
-
-export const reduceComplementsCharacter = (items) => {
-  return items.reduce((aggr, item) => {
+export const reduceComplementsCharacter = items => {
+  return items.reduce(
+    (aggr, item) => {
       aggr.films = [...new Set([...aggr.films, ...item.films])];
       aggr.species = [...new Set([...aggr.species, ...item.species])];
       aggr.homeworld = [...new Set([...aggr.homeworld, item.homeworld])];
@@ -14,7 +14,7 @@ export const reduceComplementsCharacter = (items) => {
       vehicles: []
     }
   );
-}
+};
 
 export const mergeCharacterWidthComplements = (characters, complements) => {
   return characters.reduce((aggr, character) => {
@@ -23,7 +23,7 @@ export const mergeCharacterWidthComplements = (characters, complements) => {
       name,
       height,
       hair_color: hairColor,
-      homeworld: homeworldUrl,
+      homeworld: homeworldUrl
     } = character;
 
     const id = extractId(url);
@@ -42,22 +42,24 @@ export const mergeCharacterWidthComplements = (characters, complements) => {
       homeworld,
       vehicles,
       answered: false,
-      helped: false,
+      helped: false
     };
 
     return [...aggr, character];
   }, []);
-}
+};
 
-const extractId = (url) => {
-  return url.replace(/[^\d]+/g, ""); 
-}
+const extractId = url => {
+  return url.replace(/[^\d]+/g, '');
+};
 
 const extractNamesComplement = (characters, complements, attr) => {
-  return characters[attr].map(url => extractName(url, complements, attr)).join(', ');
-}
+  return characters[attr]
+    .map(url => extractName(url, complements, attr))
+    .join(', ');
+};
 
 const extractName = (url, complements, attr) => {
   const id = extractId(url);
   return complements[attr][id];
-}
+};

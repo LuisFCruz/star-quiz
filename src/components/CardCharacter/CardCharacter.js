@@ -1,42 +1,23 @@
-import { Button, Card, CardActions, withStyles } from '@material-ui/core';
+import { Button, Card, CardActions } from '@material-ui/core';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import { selectCharacter, updateCharacters, sumScore } from '../../actions';
 import Avatar from '../Avatar/Avatar';
 import FieldAction from '../FieldAction/FieldAction';
 
+import './CardCharacter.css';
 
-const styles = {
-  card: {
-    maxWidth: 400,
-  },
-  media: {
-    height: '200px',
-    width: '100%'
-  },
-  actions: {
-    justifyContent: 'center',
-    flexWrap: 'wrap'
-  },
-  buttons: {
-    justifyContent: 'space-around',
-    display: 'flex',
-    width: '100%',
-  }
-};
-
-class CardCharacter extends Component {
+export class CardCharacter extends Component {
   constructor() {
     super();
 
     this.state = {
       reply: false,
-    }
+    };
   }
   static propTypes = {
-    classes: PropTypes.object.isRequired,
     character: PropTypes.object.isRequired,
     finished: PropTypes.bool,
     updateCharacters: PropTypes.func,
@@ -64,15 +45,15 @@ class CardCharacter extends Component {
   }
 
   renderActions = () => {
-    const { character, finished, classes } = this.props;
+    const { character, finished } = this.props;
     const { reply } = this.state;
 
     if (!finished && !character.answered && reply) {
-      return <FieldAction onConfirm={this.handleConfirm} />
+      return <FieldAction onConfirm={this.handleConfirm} />;
     }
 
     return (
-      <div className={classes.buttons}>
+      <div className="CardCharacter-buttons">
         <Button
           color="primary"
           variant="contained"
@@ -91,17 +72,17 @@ class CardCharacter extends Component {
   }
 
   render() {
-    const { character, classes } = this.props;
+    const { character } = this.props;
     
     return (
 
-      <Card >
-        <Avatar id={character.id} className={classes.media}/>
-        <CardActions className={classes.actions}>
+      <Card className="CardCharacter-card">
+        <Avatar id={character.id} className="CardCharacter-media"/>
+        <CardActions className="CardCharacter-actions">
           {this.renderActions()}
         </CardActions>
       </Card >
-    )
+    );
   }
 }
 
@@ -113,4 +94,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   { selectCharacter, updateCharacters, sumScore }
-)(withStyles(styles)(CardCharacter));
+)(CardCharacter);

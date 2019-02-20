@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardCharacter /> render 1`] = `
+<WithStyles(Card)
+  className="CardCharacter-card"
+>
+  <Avatar
+    className="CardCharacter-media"
+    id="1"
+  />
+  <WithStyles(CardActions)
+    className="CardCharacter-actions"
+  >
+    <div
+      className="CardCharacter-buttons"
+    >
+      <WithStyles(Button)
+        color="primary"
+        disabled={false}
+        onClick={[Function]}
+        variant="contained"
+      >
+         ? 
+      </WithStyles(Button)>
+      <WithStyles(Button)
+        disabled={false}
+        onClick={[Function]}
+        variant="contained"
+      >
+         ... 
+      </WithStyles(Button)>
+    </div>
+  </WithStyles(CardActions)>
+</WithStyles(Card)>
+`;
