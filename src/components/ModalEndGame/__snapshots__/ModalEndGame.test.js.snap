@@ -3,13 +3,14 @@
 exports[`<ModalEndGame /> render 1`] = `
 <WithStyles(Dialog)
   onClose={[Function]}
-  open={false}
+  open={true}
 >
   <WithStyles(DialogTitle)>
     Game over!
   </WithStyles(DialogTitle)>
   <WithStyles(DialogContent)>
     <WithStyles(Typography)>
+      115
        points
     </WithStyles(Typography)>
     <WithStyles(Typography)>

@@ -34,7 +34,6 @@ export class ModalEndGame extends Component {
     classes: PropTypes.object.isRequired,
     finished: PropTypes.bool,
     score: PropTypes.number,
-    dispatch: PropTypes.func,
   }
 
   constructor() {
