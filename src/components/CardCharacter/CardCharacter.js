@@ -1,11 +1,13 @@
 import { Button, Card, CardActions } from '@material-ui/core';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import { selectCharacter, updateCharacters, sumScore } from '../../actions';
 import Avatar from '../Avatar/Avatar';
 import FieldAction from '../FieldAction/FieldAction';
+
+import './CardCharacter.css';
 
 export class CardCharacter extends Component {
   constructor() {
@@ -74,7 +76,7 @@ export class CardCharacter extends Component {
     
     return (
 
-      <Card >
+      <Card className="CardCharacter-card">
         <Avatar id={character.id} className="CardCharacter-media"/>
         <CardActions className="CardCharacter-actions">
           {this.renderActions()}

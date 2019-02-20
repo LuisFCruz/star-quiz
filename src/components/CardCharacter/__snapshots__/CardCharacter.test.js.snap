@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<CardCharacter /> render 1`] = `
-<WithStyles(Card)>
+<WithStyles(Card)
+  className="CardCharacter-card"
+>
   <Avatar
     className="CardCharacter-media"
     id="1"
